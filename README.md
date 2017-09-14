@@ -12,7 +12,7 @@ accessing our entity reference master and taxonomy.
 This document provides detailed information about RPSelfServiceAPI
 Package and examples for each of the functions. For further information
 on Filter syntax, available Indicators, etc.. please refer to our [API
-documentation](https://staging.ravenpack.com/api-documentation/).
+documentation](https://app.ravenpack.com/api-documentation/).
 
 Installation
 ------------
@@ -20,7 +20,7 @@ Installation
 You can install the package directly from R using the code below
 
     library(devtools)
-    install_github("RavenPack/RPSelfServiceAPI")
+    install_github("RavenPack/r-api")
 
 Authentication
 --------------
@@ -100,13 +100,13 @@ Here is a full example, including payload:
     dataSetList
 
     ##       UUID     NAME   TAGS CREATION_TIME
-    ## 1: swiss20 SWISS 20 Europe            NA
-    ## 2:   eu600   EU 600 Europe            NA
-    ## 3:    eu50    EU 50 Europe            NA
-    ## 4:    fr40    FR 40 Europe            NA
-    ## 5:   uk100   UK 100 Europe            NA
-    ## 6:  ibex35  IBEX 35 Europe            NA
-    ## 7:    de30    DE 30 Europe            NA
+    ## 1:   eu600   EU 600 Europe            NA
+    ## 2:    eu50    EU 50 Europe            NA
+    ## 3:    fr40    FR 40 Europe            NA
+    ## 4:   uk100   UK 100 Europe            NA
+    ## 5: swiss20 SWISS 20 Europe            NA
+    ## 6:    de30    DE 30 Europe            NA
+    ## 7:  ibex35  IBEX 35 Europe            NA
 
 ### Get Details for a Dataset
 
@@ -185,12 +185,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "B0A48D59F0E2EC7CF9F66E1DEDA7E9C0"
+    ## [1] "A5E5B9E83D81485B60774E051EF96AED"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2017-09-14 13:18:13"
+    ## [1] "2017-09-14 14:39:08"
 
 ### Analytics Count
 
