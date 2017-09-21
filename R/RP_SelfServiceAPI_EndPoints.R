@@ -20,9 +20,18 @@ RP_CreateAPIHandler = function(APIKey) {
     stop("Missing APIKey")
 
   }
-  APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
-                                               BASE_ENDPOINT = c('https://api.ravenpack.com/1.0/',
-                                                                 'https://feed.ravenpack.com/1.0/')))
+  if (Sys.getenv("RPServerAPI")=='STAGING') {
+    # Staging API
+    APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
+                                                                          BASE_ENDPOINT = c('https://api2.ravenpack.com/1.0/',
+                                                                                            'https://staging-feed.ravenpack.com/1.0/')))
+  } else {
+    # Production API
+    APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
+                                                                          BASE_ENDPOINT = c('https://api.ravenpack.com/1.0/',
+                                                                                            'https://feed.ravenpack.com/1.0/')))
+  }
+
 
   return(APIHandler)
 
