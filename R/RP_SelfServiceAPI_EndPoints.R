@@ -23,7 +23,12 @@ RP_CreateAPIHandler = function(APIKey) {
   if (Sys.getenv("RPServerAPI")=='STAGING') {
     # Staging API
     APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
-                                                                          BASE_ENDPOINT = c('https://api2.ravenpack.com/1.0/',
+                                                                          BASE_ENDPOINT = c('https://api-staging.ravenpack.com/1.0/',
+                                                                                            'https://staging-feed.ravenpack.com/1.0/')))
+  } else if (Sys.getenv("RPServerAPI")=='PREPROD') {
+    # Staging API
+    APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
+                                                                          BASE_ENDPOINT = c('https://api-pre.ravenpack.com/1.0/',
                                                                                             'https://staging-feed.ravenpack.com/1.0/')))
   } else {
     # Production API
@@ -160,7 +165,7 @@ RP_APIListDataSet = function(APIHandler, params = list()) {
 
   Res = httr::GET(url = url_dataset,
                   httr::add_headers(api_key = APIHandler$APIKEY, accept = "application/json", content_type = "application/json"),
-                  query = query,
+                  query = URLencode(query),
                   encode = "json")
   # Parsing Results
   ResStr = httr::content(Res, as = 'text', encoding = 'UTF-8')
@@ -1037,7 +1042,7 @@ RP_APIGetReferenceData = function(APIHandler, params = list()) {
 
   Res = httr::GET(url = url_entityRef,
                   httr::add_headers(api_key = APIHandler$APIKEY, accept = "application/json", content_type = "application/json"),
-                  query = query,
+                  query = URLencode(query),
                   encode = "json")
   # Parsing Results
   if (Res$status_code==200) {

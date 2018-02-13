@@ -6,7 +6,7 @@ from RavenPack Analytics in order to retrieve smaller, more concise
 datasets right into R. Our goal with this API is to enable users to
 extract RavenPack data in the most efficient way possible, offering a
 Streaming function for subscribing to data in real-time, Data query
-functions for querying data historically and a Reference functions for
+functions for querying data historically and Reference functions for
 accessing our entity reference master and taxonomy.
 
 This document provides detailed information about RPSelfServiceAPI
@@ -17,7 +17,13 @@ documentation](https://app.ravenpack.com/api-documentation/).
 Installation
 ------------
 
-You can install the package directly from R using the code below
+First, you need to install the devtools package. You can do this from
+CRAN. Invoke R and then type
+
+    install.packages("devtools")
+
+At this point, you can install the package directly from R using the
+code below.
 
     library(devtools)
     install_github("RavenPack/r-api")
@@ -45,7 +51,7 @@ General Status of server.
 Datasets
 --------
 
-Creating and managing datasets
+Creating and managing datasets.
 
 ### Create a Dataset
 
@@ -95,24 +101,87 @@ Here is a full example, including payload:
 
 ### List all Datasets
 
+Get a list of the datasets that you have permission to access. You may
+filter the list by tags and search for only the list of datasets that
+have the tags specified, or you may filter by scope, and return only the
+datasets that are Public to everyone, Shared with you by someone else
+using RavenPack or Private datasets that were created by you.
+
+The list of datasets returns the dataset\_uuid and name for each
+dataset.
+
     payload_list = list(scope = list("private","public"), tags = list("Europe Countries"))
     dataSetList = RP_APIListDataSet(APIHandler = APIHandler, params = payload_list)
     dataSetList
 
-    ##       UUID     NAME   TAGS CREATION_TIME
-    ## 1:   eu600   EU 600 Europe            NA
-    ## 2:    eu50    EU 50 Europe            NA
-    ## 3:    fr40    FR 40 Europe            NA
-    ## 4:   uk100   UK 100 Europe            NA
-    ## 5: swiss20 SWISS 20 Europe            NA
-    ## 6:    de30    DE 30 Europe            NA
-    ## 7:  ibex35  IBEX 35 Europe            NA
+    ##           UUID                   NAME             TAGS CREATION_TIME
+    ##  1: country-xk                 Kosovo Europe Countries            NA
+    ##  2: country-rs                 Serbia Europe Countries            NA
+    ##  3: country-lt              Lithuania Europe Countries            NA
+    ##  4: country-al                Albania Europe Countries            NA
+    ##  5: country-cz         Czech Republic Europe Countries            NA
+    ##  6: country-gr                 Greece Europe Countries            NA
+    ##  7: country-gg               Guernsey Europe Countries            NA
+    ##  8: country-li          Liechtenstein Europe Countries            NA
+    ##  9: country-gi              Gibraltar Europe Countries            NA
+    ## 10: country-ie                Ireland Europe Countries            NA
+    ## 11: country-fi                Finland Europe Countries            NA
+    ## 12: country-fr                 France Europe Countries            NA
+    ## 13: country-ru                 Russia Europe Countries            NA
+    ## 14: country-gb         United Kingdom Europe Countries            NA
+    ## 15: country-lu             Luxembourg Europe Countries            NA
+    ## 16: country-at                Austria Europe Countries            NA
+    ## 17: country-nl        The Netherlands Europe Countries            NA
+    ## 18: country-pt               Portugal Europe Countries            NA
+    ## 19: country-is                Iceland Europe Countries            NA
+    ## 20: country-ad                Andorra Europe Countries            NA
+    ## 21: country-cy                 Cyprus Europe Countries            NA
+    ## 22: country-no                 Norway Europe Countries            NA
+    ## 23: country-fo          Faroe Islands Europe Countries            NA
+    ## 24: country-ro                Romania Europe Countries            NA
+    ## 25: country-ax          Aland Islands Europe Countries            NA
+    ## 26: country-ch            Switzerland Europe Countries            NA
+    ## 27: country-im            Isle of Man Europe Countries            NA
+    ## 28: country-it                  Italy Europe Countries            NA
+    ## 29: country-sm             San Marino Europe Countries            NA
+    ## 30: country-va                Vatican Europe Countries            NA
+    ## 31: country-es                  Spain Europe Countries            NA
+    ## 32: country-lv                 Latvia Europe Countries            NA
+    ## 33: country-dk                Denmark Europe Countries            NA
+    ## 34: country-pl                 Poland Europe Countries            NA
+    ## 35: country-sk               Slovakia Europe Countries            NA
+    ## 36: country-mt                  Malta Europe Countries            NA
+    ## 37: country-me             Montenegro Europe Countries            NA
+    ## 38: country-md                Moldova Europe Countries            NA
+    ## 39: country-hr                Croatia Europe Countries            NA
+    ## 40: country-si               Slovenia Europe Countries            NA
+    ## 41: country-mk              Macedonia Europe Countries            NA
+    ## 42: country-mc                 Monaco Europe Countries            NA
+    ## 43: country-be                Belgium Europe Countries            NA
+    ## 44: country-sj Svalbard and Jan Mayen Europe Countries            NA
+    ## 45: country-ua                Ukraine Europe Countries            NA
+    ## 46: country-by                Belarus Europe Countries            NA
+    ## 47: country-bg               Bulgaria Europe Countries            NA
+    ## 48: country-ba Bosnia and Herzegovina Europe Countries            NA
+    ## 49: country-ee                Estonia Europe Countries            NA
+    ## 50: country-de                Germany Europe Countries            NA
+    ## 51: country-je                 Jersey Europe Countries            NA
+    ## 52: country-hu                Hungary Europe Countries            NA
+    ## 53: country-se                 Sweden Europe Countries            NA
+    ##           UUID                   NAME             TAGS CREATION_TIME
 
 ### Get Details for a Dataset
+
+Get the full specification for a single dataset.
 
     RP_APIGetDataSet(APIHandler = APIHandler, datasetUUID = datasetUUID)
 
 ### Modify an Existing Dataset
+
+Modify an existing dataset. When modifying a dataset, it is possible to
+provide just the parameters that you wish to modify. Any parameters that
+are not included in the request will retain their value and will not be
+modified.
 
     RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
@@ -157,6 +226,8 @@ Here is a full example including payload syntax:
 
 ### Delete a Dataset
 
+Delete a single dataset.
+
     serverResponse = RP_APIDeleteDataSet(APIHandler = APIHandler, datasetUUID = datasetUUID)
 
     ## [1] "Dataset 0286C6999C7D3DB8EFDAD71CBA7B5AF5 successfully deleted."
@@ -164,7 +235,18 @@ Here is a full example including payload syntax:
 Datafiles
 ---------
 
-Generating data files.
+Generating datafiles for a particular dataset for any period from the
+year 2000 to present. Data may be retrieved in CSV or Excel format and
+may be compressed (.ZIP) for transmission via HTTP.
+
+Notes:
+
+-   There is a limitation of 50 million records for generating granular
+    data and 10 million records for aggregated data.
+-   There is a limit to the number of datafiles that may be generated
+    concurrently for a single user via the RavenPack API.
+-   In the event that too many requests have been made, a HTTP 429
+    response will be returned.
 
 ### Generate a data file
 
@@ -177,6 +259,7 @@ Here is a full example including the payload syntax:
     payload_filerequest = '{
       "start_date": "2017-01-01 00:00:00",
       "end_date": "2017-01-02 00:00:00",
+      "time_zone": "Europe/Madrid",
       "format": "csv",
       "compressed": true,
       "notify": false
@@ -185,32 +268,34 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "A5E5B9E83D81485B60774E051EF96AED"
+    ## [1] "AB4BE85088F8C3A547FCC18307AC4765"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2017-09-14 14:39:08"
+    ## [1] "2018-02-13 08:48:39 UTC"
 
 ### Analytics Count
 
 You can find out how many rows a particular datafile will contain before
-actually generating it. In general it is a good idea to use this in
+actually generating it. In general, it is a good idea to use this in
 order to determine if a particular datafile will be too large and will
 need to be broken up into smaller subsets.
 
     payload_count = '{
       "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00"
+      "end_date": "2017-01-02 00:00:00",
+      "time_zone": "Europe/Madrid"
     }'
     rowCount = RP_APIGetDataFileCount(APIHandler = APIHandler, payload = payload_count, datasetUUID = datasetUUID)
     rowCount
 
-    ## [1] 2
+    ## [1] 3
 
 ### Datafile Generation Status
 
-You can check the data file request status using the following code:
+After submitting a request to generate a datafile, you can check the
+request status using the following code:
 
     status = RP_APICheckFileAvailability(APIHandler = APIHandler, token = requestToken$TOKEN)
     status
@@ -218,25 +303,49 @@ You can check the data file request status using the following code:
     ## $STATUS
     ## [1] "processing"
 
+When the job is complete, the status will be updated to "completed".
+
 ### Cancel a Request
 
 If a datafile generation job has the status "enqueued", it may be
-cancelled. Here is how:
+cancelled. To cancel a job:
 
     serverResponse = RP_APICancelRequest(APIHandler = APIHandler, token = requestToken$TOKEN)
 
 If the job is finished or processing, you will get an error.
 
+### Download a Request
+
+Once the status of the request is "completed", the datafile can be
+downloaded. You have to provide a name for the datafile. Make sure your
+extension match the format you requested (csv, xls,...). In particular,
+if compression was requested, you will be receiving a zip file.
+
+    # Check availability
+    status = RP_APICheckFileAvailability( APIHandler = APIHandler, token = requestToken$TOKEN )
+    # Checking completion
+    if (status$STATUS == "completed") {
+      
+      RP_APIDownloadFile(APIHandler = APIHandler, statusInfo = status, outputFile = 'datafile.zip')
+      
+    }
+
+If you try to download the dataset before the request has completed, you
+will receive an error message: 'The Request status is not complete.'.
+Please wait until the request is completed to perform the download.
+
 JSON Queries
 ------------
 
-Request data in JSON format
+Request data in JSON format.
 
 ### Adhoc Request for Data
 
-Using this function, you dont need to define a dataset in advance. All
-can be done into the same call, providing the proper payload. Here is a
-full example:
+This function allows data to be requested synchronously in JSON format,
+without having previously defined a dataset. The function requires
+similar parameters to the ones used when creating a dataset.
+
+Here is a full example:
 
     payload_jsonfull = '{
       "product": "RPA",
@@ -269,23 +378,24 @@ full example:
       },
       "having": [],
       "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00"
+      "end_date": "2017-01-02 00:00:00",
+      "time_zone": "Europe/Madrid"
     }'
     data = RP_APIGetFullAdhocJSON(APIHandler = APIHandler, payload = payload_jsonfull)
     data
 
-    ##          TIMESTAMP_UTC RP_ENTITY_ID                     ENTITY_NAME
-    ## 1: 2017-01-02 00:00:00       D8442A                      Apple Inc.
-    ## 2: 2017-01-02 00:00:00       ROLLUP Rollup of data for all entities
-    ##    AVERAGE_ESS
-    ## 1:       0.159
-    ## 2:       0.159
+    ##          TIMESTAMP_UTC     TIMESTAMP_LOCAL RP_ENTITY_ID
+    ## 1: 2017-01-01 23:00:00 2017-01-02 00:00:00       D8442A
+    ## 2: 2017-01-01 23:00:00 2017-01-02 00:00:00       ROLLUP
+    ##                        ENTITY_NAME AVERAGE_ESS
+    ## 1:                      Apple Inc.     0.09364
+    ## 2: Rollup of data for all entities     0.09364
 
 ### Adhoc Request for Dataset
 
-The JSON dataset endpoint allows data to be requested synchronously and
-received in a data.table. A predefined dataset must be supplied and the
-fields property may be overriden. Here is an full example:
+This function allows data to be requested synchronously and received in
+a data.table. A predefined dataset must be supplied and the fields
+property may be overriden. Here is a full example:
 
     payload_jsonDS = '{
       "frequency": "daily",
@@ -300,82 +410,47 @@ fields property may be overriden. Here is an full example:
       ],
       "having": [],
       "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00"
+      "end_date": "2017-01-02 00:00:00",
+      "time_zone": "Europe/Madrid"
     }'
     data = RP_APIGetDataSetJSON(APIHandler = APIHandler, payload = payload_jsonDS, datasetUUID = datasetUUID)
     data
 
-    ##          TIMESTAMP_UTC RP_ENTITY_ID                     ENTITY_NAME
-    ## 1: 2017-01-02 00:00:00       0157B1                 Amazon.com Inc.
-    ## 2: 2017-01-02 00:00:00       228D42                 Microsoft Corp.
-    ## 3: 2017-01-02 00:00:00       ROLLUP Rollup of data for all entities
-    ##    AVERAGE_ESS
-    ## 1:       -0.34
-    ## 2:        0.44
-    ## 3:        0.05
+    ##          TIMESTAMP_UTC     TIMESTAMP_LOCAL RP_ENTITY_ID
+    ## 1: 2017-01-01 23:00:00 2017-01-02 00:00:00       0157B1
+    ## 2: 2017-01-01 23:00:00 2017-01-02 00:00:00       228D42
+    ## 3: 2017-01-01 23:00:00 2017-01-02 00:00:00       ROLLUP
+    ##                        ENTITY_NAME AVERAGE_ESS
+    ## 1:                 Amazon.com Inc.     0.01500
+    ## 2:                 Microsoft Corp.     0.44000
+    ## 3: Rollup of data for all entities     0.15667
 
 ### Preview of a Dataset
 
-The preview endpoint allows a small sample of a dataset to be returned
-as data.table. Here is how:
+This function allows a a small sample of a dataset to be returned in a
+data.table. Here is how:
 
     payload_preview = '{
       "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00"
+      "end_date": "2017-01-02 00:00:00",
+      "time_zone": "Europe/Madrid"
     }'
     data = RP_APIGetDataSetPreview(APIHandler = APIHandler, payload = payload_preview, datasetUUID = datasetUUID)
     data
 
-    ##    REPORTING_START_DATE_UTC CSS BEE     ENTITY_NAME BMQ
-    ## 1:                       NA   0   0 Amazon.com Inc.   0
-    ## 2:                       NA   0   0 Microsoft Corp.   0
-    ##                   TYPE BER BAM PRODUCT_KEY           TIMESTAMP_UTC   NIP
-    ## 1:           ownership   0   0         RPA 2017-01-01 18:32:25.966  0.02
-    ## 2: product-enhancement   0   0         RPA 2017-01-01 09:15:07.886 -0.30
-    ##    PROPERTY EARNINGS_TYPE MCQ PEQ
-    ## 1:     held            NA   0   0
-    ## 2:       NA            NA   0   0
-    ##                                                             EVENT_TEXT
-    ## 1: Beech Hill Advisors Inc. Sells 76 Shares of Amazon.com, Inc. (AMZN)
-    ## 2:                            Microsoft planning to launch Surface Pro
-    ##                GROUP RP_POSITION_ID REPORTING_END_DATE_UTC MATURITY
-    ## 1:    equity-actions             NA                     NA       NA
-    ## 2: products-services             NA                     NA       NA
-    ##    FACT_LEVEL RELEVANCE RELATED_ENTITY COUNTRY_CODE EVENT_START_DATE_UTC
-    ## 1:       fact       100             NA           US                   NA
-    ## 2:       fact       100         F3F581           US                   NA
-    ##       TOPIC PROVIDER_ID BCA RP_STORY_EVENT_INDEX
-    ## 1: business        MRVR   0                    1
-    ## 2: business        MRVR   0                    1
-    ##                         RP_STORY_ID EVENT_SENTIMENT_SCORE
-    ## 1: 0F48455C2AC2506D8E4C8C43846A89E2                 -0.34
-    ## 2: F8079AB7E421364BF9D960B16CC70F85                  0.44
-    ##    RP_STORY_EVENT_COUNT EVALUATION_METHOD PROVIDER_STORY_ID RP_SOURCE_ID
-    ## 1:                    2                NA    10:29089165359       C98333
-    ## 2:                   13                NA    10:29085827333       0BFC0E
-    ##    ANL_CHG    NEWS_TYPE SUB_TYPE RELATIONSHIP
-    ## 1:       0 FULL-ARTICLE decrease           NA
-    ## 2:       0 FULL-ARTICLE       NA      PRODUCT
-    ##                                                                       HEADLINE
-    ## 1:         Beech Hill Advisors Inc. Sells 76 Shares of Amazon.com, Inc. (AMZN)
-    ## 2: Microsoft planning to launch Surface Pro 5 in first quarter of 2017: Report
-    ##       SOURCE_NAME EVENT_RELEVANCE             EVENT_SIMILARITY_KEY
-    ## 1:  Ticker Report             100 43256BF9B32648421FBBE7E6C6BFBED0
-    ## 2: Indian Express             100 B943E40345A8C201830DEC62659EAA63
-    ##    EVENT_END_DATE_UTC POSITION_NAME RP_ENTITY_ID ENTITY_TYPE
-    ## 1:                 NA            NA       0157B1        COMP
-    ## 2:                 NA            NA       228D42        COMP
-    ##    EVENT_SIMILARITY_DAYS                                    ROW_ID
-    ## 1:               3.78813 0F48455C2AC2506D8E4C8C43846A89E2-0157B1-1
-    ## 2:             365.00000 F8079AB7E421364BF9D960B16CC70F85-228D42-1
-    ##                   CATEGORY REPORTING_PERIOD
-    ## 1: ownership-decrease-held               NA
-    ## 2:     product-enhancement               NA
+    ##            TIMESTAMP_LOCAL RP_ENTITY_ID           TIMESTAMP_UTC
+    ## 1: 2017-01-01 19:32:25.966       0157B1 2017-01-01 18:32:25.966
+    ## 2: 2017-01-01 10:15:07.886       228D42 2017-01-01 09:15:07.886
+    ## 3: 2017-01-01 00:52:27.634       0157B1 2016-12-31 23:52:27.634
+    ##        ENTITY_NAME                      RP_STORY_ID
+    ## 1: Amazon.com Inc. 0F48455C2AC2506D8E4C8C43846A89E2
+    ## 2: Microsoft Corp. F8079AB7E421364BF9D960B16CC70F85
+    ## 3: Amazon.com Inc. B1C3BC2B6C932231182812D93B87F59F
 
 Entities
 --------
 
-### Map Identifiers into RavenPack Identifiers
+### Map Entity Identifiers into RavenPack's Entity Universe
 
 The entity-mapping endpoint may be used to map from a universe of entity
 or security identifiers into RavenPack’s entity universe. One may pass
@@ -399,14 +474,26 @@ RP\_ENTITY\_ID for the possible matches. Find a full example below:
     }'
     mapData = RP_APIMappingRequest(APIHandler = APIHandler, payload = payload_maprequest)
 
-### Get Reference data file
+In the event that it is unable to match the requested entity to an
+entity in the RavenPack entity universe, there will be no mapped
+entities and the requested data is returned as an error.
 
-Provides a link to the entity reference data file
+In the event that multiple entities are matched, the entities will be
+returned ranked with a relative score, which may be used to
+automatically filter or sort for further analysis.
 
-    params_Ref = list(entity_type = 'COMP')
-    refData = RP_APIGetReferenceData(APIHandler = APIHandler,params = params_Ref)
+### Get a Reference Data File
 
-### Get Reference data for an Entity
+Provides a link to the entity reference data file.
+
+    params_ref = list(entity_type = 'COMP')
+    refData = RP_APIGetReferenceData(APIHandler = APIHandler, params = params_ref)
+
+### Get Reference Data for an Entity
+
+Request reference data for a single entity in RavenPack’s entity
+universe. It is possible to have more than one value for a particular
+type of data.
 
 Taxonomy
 --------
@@ -418,8 +505,7 @@ including companies, products, people, organizations, places, and more.
 
 ### Querying the Event Taxonomy
 
-This function will allow you to query the event taxonomy. Here is an
-example:
+This function allow to query the event taxonomy. Here is an example:
 
     payload_taxonomy = '{
       "topics": [],
@@ -449,12 +535,12 @@ You can use the following code to subscribe to a feed:
     data = RP_APISubscribeRT(APIHandler = APIHandler, datasetUUID = datasetUUID, funPath = funPath)
 
 Bear in mind that, under the hood, the data will be passed from a curl
-to your defined R function using a pipe. Something like:
+to your defined R function using a pipe. Example:
 
     curl -s -H "api-key:XXX" "https://feed.ravenpack.com/1.0/json/<datasetUUID>" | r -f funPath
 
-Here is a dummy example for processing the stream that you may use as
-skeleton:
+Here there is a simple example for processing the stream that you may
+use as skeleton:
 
      f <- file("stdin")
      open(f)
@@ -462,3 +548,22 @@ skeleton:
        write(line, stderr())
        # do any other process
      }
+
+------------------------------------------------------------------------
+
+FAQ
+---
+
+### Authentication issues
+
+If you are behind a firewall or a proxy, you may experience problems
+with SSL authentication:
+
+    > status = RP_APIStatus(APIHandler = APIHandler)
+     Error in curl::curl_fetch_memory(url, handle = handle) :
+     Peer certificate cannot be authenticated with given CA certificates
+
+As a workaround, you can run the following code:
+
+    > library(httr)
+    > set_config(config(ssl_verifypeer = 0L))
