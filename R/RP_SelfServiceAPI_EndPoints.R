@@ -339,6 +339,7 @@ RP_APIDeleteDataSet = function(APIHandler, datasetUUID) {
   } else if (jsonlite::validate(ResStr)) {
 
     deleteResults = jsonlite::fromJSON(ResStr)
+    print(deleteResults)
 
   } else {
 
@@ -688,7 +689,6 @@ RP_APICancelRequest = function(APIHandler, token) {
     Res = httr::DELETE(url = url_datafile,
                      httr::add_headers(api_key = APIHandler$APIKEY, accept = "application/json", content_type = "application/json"),
                      encode = "json")
-
     # Parsing Results
     ResStr = httr::content(Res, as = 'text', encoding = 'UTF-8')
     if (jsonlite::validate(ResStr)) {
@@ -703,6 +703,7 @@ RP_APICancelRequest = function(APIHandler, token) {
       } else {
 
         dataDump = serverResponse
+        print(serverResponse)
 
       }
 
