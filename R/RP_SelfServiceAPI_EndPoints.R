@@ -619,7 +619,7 @@ RP_APIRequestDataFile = function(APIHandler, payload, datasetUUID) {
 #' @return Information about the status of the request.
 #' \itemize{
 #' Response parameters:
-#' \item{status: } {One of the following: [enqueued, processing, complete]}
+#' \item{status: } {One of the following: [enqueued, processing, completed, error]}
 #' \item{size: } {File size.}
 #' \item{url: } {Link to download the file.}
 #' \item{checksum: } {Checksum code.}}

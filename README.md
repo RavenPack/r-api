@@ -35,6 +35,7 @@ In order to use this API you must authenticate against the server. This
 can be performed as follows:
 
     library(RPSelfServiceAPI)
+
     APIKey = "<A_VALID_API_KEY>"
     APIHandler = RP_CreateAPIHandler(APIKey)
 
@@ -97,7 +98,7 @@ Here is a full example, including payload:
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "0286C6999C7D3DB8EFDAD71CBA7B5AF5"
+    ## [1] "35C73DF179F851D0341710EC3BA437DE"
 
 ### List all Datasets
 
@@ -115,59 +116,59 @@ dataset.
     dataSetList
 
     ##           UUID                   NAME             TAGS CREATION_TIME
-    ##  1: country-xk                 Kosovo Europe Countries            NA
-    ##  2: country-rs                 Serbia Europe Countries            NA
-    ##  3: country-lt              Lithuania Europe Countries            NA
-    ##  4: country-al                Albania Europe Countries            NA
+    ##  1: country-gr                 Greece Europe Countries            NA
+    ##  2: country-va                Vatican Europe Countries            NA
+    ##  3: country-fi                Finland Europe Countries            NA
+    ##  4: country-lt              Lithuania Europe Countries            NA
     ##  5: country-cz         Czech Republic Europe Countries            NA
-    ##  6: country-gr                 Greece Europe Countries            NA
-    ##  7: country-gg               Guernsey Europe Countries            NA
-    ##  8: country-li          Liechtenstein Europe Countries            NA
-    ##  9: country-gi              Gibraltar Europe Countries            NA
-    ## 10: country-ie                Ireland Europe Countries            NA
-    ## 11: country-fi                Finland Europe Countries            NA
-    ## 12: country-fr                 France Europe Countries            NA
-    ## 13: country-ru                 Russia Europe Countries            NA
-    ## 14: country-gb         United Kingdom Europe Countries            NA
-    ## 15: country-lu             Luxembourg Europe Countries            NA
-    ## 16: country-at                Austria Europe Countries            NA
-    ## 17: country-nl        The Netherlands Europe Countries            NA
-    ## 18: country-pt               Portugal Europe Countries            NA
-    ## 19: country-is                Iceland Europe Countries            NA
-    ## 20: country-ad                Andorra Europe Countries            NA
-    ## 21: country-cy                 Cyprus Europe Countries            NA
-    ## 22: country-no                 Norway Europe Countries            NA
-    ## 23: country-fo          Faroe Islands Europe Countries            NA
-    ## 24: country-ro                Romania Europe Countries            NA
-    ## 25: country-ax          Aland Islands Europe Countries            NA
-    ## 26: country-ch            Switzerland Europe Countries            NA
-    ## 27: country-im            Isle of Man Europe Countries            NA
-    ## 28: country-it                  Italy Europe Countries            NA
+    ##  6: country-rs                 Serbia Europe Countries            NA
+    ##  7: country-xk                 Kosovo Europe Countries            NA
+    ##  8: country-is                Iceland Europe Countries            NA
+    ##  9: country-nl        The Netherlands Europe Countries            NA
+    ## 10: country-ru                 Russia Europe Countries            NA
+    ## 11: country-al                Albania Europe Countries            NA
+    ## 12: country-lu             Luxembourg Europe Countries            NA
+    ## 13: country-ie                Ireland Europe Countries            NA
+    ## 14: country-es                  Spain Europe Countries            NA
+    ## 15: country-no                 Norway Europe Countries            NA
+    ## 16: country-cy                 Cyprus Europe Countries            NA
+    ## 17: country-ax          Aland Islands Europe Countries            NA
+    ## 18: country-fo          Faroe Islands Europe Countries            NA
+    ## 19: country-gg               Guernsey Europe Countries            NA
+    ## 20: country-lv                 Latvia Europe Countries            NA
+    ## 21: country-at                Austria Europe Countries            NA
+    ## 22: country-it                  Italy Europe Countries            NA
+    ## 23: country-pt               Portugal Europe Countries            NA
+    ## 24: country-im            Isle of Man Europe Countries            NA
+    ## 25: country-gi              Gibraltar Europe Countries            NA
+    ## 26: country-li          Liechtenstein Europe Countries            NA
+    ## 27: country-ro                Romania Europe Countries            NA
+    ## 28: country-fr                 France Europe Countries            NA
     ## 29: country-sm             San Marino Europe Countries            NA
-    ## 30: country-va                Vatican Europe Countries            NA
-    ## 31: country-es                  Spain Europe Countries            NA
-    ## 32: country-lv                 Latvia Europe Countries            NA
-    ## 33: country-dk                Denmark Europe Countries            NA
-    ## 34: country-pl                 Poland Europe Countries            NA
-    ## 35: country-sk               Slovakia Europe Countries            NA
-    ## 36: country-mt                  Malta Europe Countries            NA
-    ## 37: country-me             Montenegro Europe Countries            NA
-    ## 38: country-md                Moldova Europe Countries            NA
-    ## 39: country-hr                Croatia Europe Countries            NA
-    ## 40: country-si               Slovenia Europe Countries            NA
-    ## 41: country-mk              Macedonia Europe Countries            NA
-    ## 42: country-mc                 Monaco Europe Countries            NA
-    ## 43: country-be                Belgium Europe Countries            NA
-    ## 44: country-sj Svalbard and Jan Mayen Europe Countries            NA
-    ## 45: country-ua                Ukraine Europe Countries            NA
-    ## 46: country-by                Belarus Europe Countries            NA
-    ## 47: country-bg               Bulgaria Europe Countries            NA
-    ## 48: country-ba Bosnia and Herzegovina Europe Countries            NA
-    ## 49: country-ee                Estonia Europe Countries            NA
-    ## 50: country-de                Germany Europe Countries            NA
-    ## 51: country-je                 Jersey Europe Countries            NA
-    ## 52: country-hu                Hungary Europe Countries            NA
-    ## 53: country-se                 Sweden Europe Countries            NA
+    ## 30: country-gb         United Kingdom Europe Countries            NA
+    ## 31: country-ch            Switzerland Europe Countries            NA
+    ## 32: country-ad                Andorra Europe Countries            NA
+    ## 33: country-ba Bosnia and Herzegovina Europe Countries            NA
+    ## 34: country-si               Slovenia Europe Countries            NA
+    ## 35: country-ua                Ukraine Europe Countries            NA
+    ## 36: country-by                Belarus Europe Countries            NA
+    ## 37: country-md                Moldova Europe Countries            NA
+    ## 38: country-sj Svalbard and Jan Mayen Europe Countries            NA
+    ## 39: country-mk              Macedonia Europe Countries            NA
+    ## 40: country-mc                 Monaco Europe Countries            NA
+    ## 41: country-hr                Croatia Europe Countries            NA
+    ## 42: country-sk               Slovakia Europe Countries            NA
+    ## 43: country-dk                Denmark Europe Countries            NA
+    ## 44: country-bg               Bulgaria Europe Countries            NA
+    ## 45: country-pl                 Poland Europe Countries            NA
+    ## 46: country-me             Montenegro Europe Countries            NA
+    ## 47: country-hu                Hungary Europe Countries            NA
+    ## 48: country-se                 Sweden Europe Countries            NA
+    ## 49: country-mt                  Malta Europe Countries            NA
+    ## 50: country-be                Belgium Europe Countries            NA
+    ## 51: country-ee                Estonia Europe Countries            NA
+    ## 52: country-je                 Jersey Europe Countries            NA
+    ## 53: country-de                Germany Europe Countries            NA
     ##           UUID                   NAME             TAGS CREATION_TIME
 
 ### Get Details for a Dataset
@@ -222,7 +223,7 @@ Here is a full example including payload syntax:
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset 0286C6999C7D3DB8EFDAD71CBA7B5AF5 successfully modified."
+    ## [1] "Dataset 35C73DF179F851D0341710EC3BA437DE successfully modified."
 
 ### Delete a Dataset
 
@@ -230,7 +231,7 @@ Delete a single dataset.
 
     serverResponse = RP_APIDeleteDataSet(APIHandler = APIHandler, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset 0286C6999C7D3DB8EFDAD71CBA7B5AF5 successfully deleted."
+    ## [1] "Dataset 35C73DF179F851D0341710EC3BA437DE successfully deleted."
 
 Datafiles
 ---------
@@ -268,12 +269,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "AB4BE85088F8C3A547FCC18307AC4765"
+    ## [1] "2C6AECFB07CA12131E1B10E39F9B2F0B"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2018-02-13 08:48:39 UTC"
+    ## [1] "2018-02-28 12:37:22 UTC"
 
 ### Analytics Count
 
@@ -302,6 +303,24 @@ request status using the following code:
 
     ## $STATUS
     ## [1] "processing"
+    ## 
+    ## $SUBMITTED
+    ## [1] "2018-02-28 12:37:22 UTC"
+    ## 
+    ## $TOKEN
+    ## [1] "2C6AECFB07CA12131E1B10E39F9B2F0B"
+    ## 
+    ## $SIZE
+    ## NULL
+    ## 
+    ## $URL
+    ## NULL
+    ## 
+    ## $CHECKSUM
+    ## NULL
+    ## 
+    ## $TAGS
+    ## list()
 
 When the job is complete, the status will be updated to "completed".
 
@@ -318,21 +337,35 @@ If the job is finished or processing, you will get an error.
 
 Once the status of the request is "completed", the datafile can be
 downloaded. You have to provide a name for the datafile. Make sure your
-extension match the format you requested (csv, xls,...). In particular,
-if compression was requested, you will be receiving a zip file.
-
-    # Check availability
-    status = RP_APICheckFileAvailability( APIHandler = APIHandler, token = requestToken$TOKEN )
-    # Checking completion
-    if (status$STATUS == "completed") {
-      
-      RP_APIDownloadFile(APIHandler = APIHandler, statusInfo = status, outputFile = 'datafile.zip')
-      
-    }
+extension matches the format you requested (csv, xls,...). In
+particular, if compression was requested, you will be receiving a zip
+file.
 
 If you try to download the dataset before the request has completed, you
 will receive an error message: 'The Request status is not complete.'.
-Please wait until the request is completed to perform the download.
+Please wait until the request is completed to perform the download. You
+can use the *RP\_APIWaitForJobCompletion* function to wait until the
+request is completed. The *timeout* parameter specifies the maximum
+waiting time (in seconds).
+
+    # Wait until job is completed
+    jobStatus = RP_APIWaitForJobCompletion (APIHandler = APIHandler, token = requestToken$TOKEN, timeout = 120)
+
+    # Checking completion
+    if (jobStatus$STATUS == "completed") {
+      
+      RP_APIDownloadFile(APIHandler = APIHandler, statusInfo = jobStatus$STATUSINFO, outputFile = 'datafile.zip')
+      
+    }
+
+### Download a Request when Ready
+
+It is also possible to automate the download by using the
+*RP\_APIDownloadFileWhenReady* function. This function waits until the
+file is ready to download. You must provide the maximum waiting time (in
+seconds) using the *timeout* parameter.
+
+    RP_APIDownloadFileWhenReady(APIHandler = APIHandler, token = requestToken$TOKEN, outputFile = 'datafile.zip', timeout = 120)
 
 JSON Queries
 ------------
@@ -438,14 +471,14 @@ data.table. Here is how:
     data = RP_APIGetDataSetPreview(APIHandler = APIHandler, payload = payload_preview, datasetUUID = datasetUUID)
     data
 
-    ##            TIMESTAMP_LOCAL RP_ENTITY_ID           TIMESTAMP_UTC
-    ## 1: 2017-01-01 19:32:25.966       0157B1 2017-01-01 18:32:25.966
-    ## 2: 2017-01-01 10:15:07.886       228D42 2017-01-01 09:15:07.886
-    ## 3: 2017-01-01 00:52:27.634       0157B1 2016-12-31 23:52:27.634
-    ##        ENTITY_NAME                      RP_STORY_ID
-    ## 1: Amazon.com Inc. 0F48455C2AC2506D8E4C8C43846A89E2
-    ## 2: Microsoft Corp. F8079AB7E421364BF9D960B16CC70F85
-    ## 3: Amazon.com Inc. B1C3BC2B6C932231182812D93B87F59F
+    ##              TIMESTAMP_UTC                      RP_STORY_ID RP_ENTITY_ID
+    ## 1: 2017-01-01 18:32:25.966 0F48455C2AC2506D8E4C8C43846A89E2       0157B1
+    ## 2: 2017-01-01 09:15:07.886 F8079AB7E421364BF9D960B16CC70F85       228D42
+    ## 3: 2016-12-31 23:52:27.634 B1C3BC2B6C932231182812D93B87F59F       0157B1
+    ##        ENTITY_NAME
+    ## 1: Amazon.com Inc.
+    ## 2: Microsoft Corp.
+    ## 3: Amazon.com Inc.
 
 Entities
 --------
