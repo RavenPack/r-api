@@ -310,14 +310,15 @@ RP_APIGetDataSet = function(APIHandler, datasetUUID) {
 #' @description Deletes a dataset.
 #' @param APIHandler An API handler, created using RP_CreateAPIHandler
 #' @param datasetUUID A string with the dataset identifier to delete.
-#' @return TRUE if the dataset was successfully deleted. An error message otherwise.
+#' @return A list with the delete results if the dataset was successfully deleted. An Error otherwise.
+#' The delete results contains a 'message' field.
 #' @author Jose A. Guerrero-Colon
 #' @export
 #' @import httr
 #' @import jsonlite
 RP_APIDeleteDataSet = function(APIHandler, datasetUUID) {
 
-  deleteResults = NULL
+  # Parameter checking
   if (missing(APIHandler)) {
     stop("You need to provide a valid APIHandler.")
   }
@@ -326,28 +327,24 @@ RP_APIDeleteDataSet = function(APIHandler, datasetUUID) {
     stop("You need to provide a valid datasetUUID")
   }
 
+  # Request
   url_dataset = paste0(APIHandler$ENDPOINTS[TYPE == 'ASYNC']$BASE_ENDPOINT,'datasets/',datasetUUID)
 
   Res = httr::DELETE(url = url_dataset,
                httr::add_headers(api_key = APIHandler$APIKEY, accept = "application/json", content_type = "application/json"),
                encode = "json")
+
   # Parsing Results
   ResStr = httr::content(Res, as = 'text', encoding = 'UTF-8')
-  if (ResStr=="") {
-    print(paste("Dataset", datasetUUID, "successfully deleted."))
-    deleteResults = TRUE
-  } else if (jsonlite::validate(ResStr)) {
+  deleteResults = jsonlite::fromJSON(ResStr)
 
-    deleteResults = jsonlite::fromJSON(ResStr)
-    print(deleteResults)
-
+  if( Res$status_code == 200 ) {
+    print( deleteResults$message )
   } else {
-
-    stop(paste("There was an error receiving the httr::content.", ResStr))
-
+    stop( deleteResults$errors )
   }
 
-  return(deleteResults)
+  return( deleteResults )
 }
 
 

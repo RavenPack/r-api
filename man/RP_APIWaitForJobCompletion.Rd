@@ -9,7 +9,7 @@ RP_APIWaitForJobCompletion(APIHandler, token, timeout = 60)
 \arguments{
 \item{APIHandler}{An API handler, created using RP_CreateAPIHandler.}
 
-\item{token}{A string that identifies the request.}
+\item{token}{A string that identifies the request. Check RP_APIRequestDataFile to generate a request.}
 
 \item{timeout}{Time (in seconds) to wait.}
 }

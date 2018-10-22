@@ -1,9 +1,9 @@
 Package: RPSelfServiceAPI
 Type: Package
 Title: RavenPack API to Self Service Platform
-Date: 28-FEB-2018
-Version: 1.0.4
-Authors@R:  c(person("Guerrero-Colón", "Jose A.", email = "jguerrero@ravenpack.com", role = "cre"))
+Date: 22-OCT-2018
+Version: 1.1
+Authors@R: c(person("Guerrero-Colón", "Jose A.", email = "jguerrero@ravenpack.com", role = "cre"))
 Description: This package provides access to RavenPack Self Service Platform (REST) API.
     It relies on JSON structures to define the request. Refer to the API documentation for more information.
 Imports: data.table, httr, jsonlite
@@ -11,4 +11,4 @@ License: RavenPack International
 Encoding: UTF-8
 LazyData: true
 LazyLoad: Yes
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

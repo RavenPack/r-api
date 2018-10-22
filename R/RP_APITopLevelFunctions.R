@@ -56,24 +56,37 @@ RP_APIDownloadFile = function(APIHandler, statusInfo, outputFile) {
 #' @title RP_APIDownloadFileWhenReady
 #' @description Downloads a request file when it is ready.
 #' @param APIHandler An API handler, created using RP_CreateAPIHandler.
-#' @param token A string that identifies the request.
-#' @param outputFile Output filename
-#' @param timeout: time (in seconds) to wait for download
+#' @param token A string that identifies the request. Check RP_APIRequestDataFile to generate a request.
+#' @param outputFile Output filename.
+#' @param timeout: time (in seconds) to wait for download. Default 60.
+#' @return TRUE if the download was successful. An Error otherwise.
 #' @author Maria Gomez
 #' @export
-RP_APIDownloadFileWhenReady = function ( APIHandler, token, outputFile, timeout ) {
+RP_APIDownloadFileWhenReady = function ( APIHandler, token, outputFile, timeout = 60 ) {
+
+  # Parameter checking
+  if ( missing(APIHandler) ) {
+    stop("You need to provide a valid APIHandler.")
+  }
+  if ( missing(token) ) {
+    stop("You need to provide a request token. Check RP_APIRequestDataFile to generate a request.")
+  }
+  if ( missing(outputFile) ) {
+    stop("You need to provide an output file.")
+  }
+
 
   # Wait until job is completed
   status = RP_APIWaitForJobCompletion(APIHandler = APIHandler, token = token, timeout = timeout)
 
   if(status$STATUS == 'completed') {
-
     RP_APIDownloadFile(APIHandler = APIHandler, statusInfo = status$STATUSINFO, outputFile = outputFile)
     print( 'File successfully downloaded!' )
+    return(TRUE)
   }
 
   else {
-    print( paste0('Error downloading the file. Error message: ', status$STATUS) )
+    stop( paste0('Error downloading the file. Error message: ', status$STATUS) )
   }
 }
 
@@ -84,7 +97,7 @@ RP_APIDownloadFileWhenReady = function ( APIHandler, token, outputFile, timeout 
 #' @title RP_APIWaitForJobCompletion
 #' @description Waits until the request file is available to download
 #' @param APIHandler An API handler, created using RP_CreateAPIHandler.
-#' @param token A string that identifies the request.
+#' @param token A string that identifies the request. Check RP_APIRequestDataFile to generate a request.
 #' @param timeout Time (in seconds) to wait.
 #' @return The final status of the job. A list containg two values:
 #'          STATUS (String defining the final status: 'completed', 'error' or 'timeout'), and
@@ -93,8 +106,16 @@ RP_APIDownloadFileWhenReady = function ( APIHandler, token, outputFile, timeout 
 #' @export
 RP_APIWaitForJobCompletion = function ( APIHandler, token, timeout = 60) {
 
+  # Parameter checking
+  if ( missing(APIHandler) ) {
+    stop("You need to provide a valid APIHandler.")
+  }
+  if ( missing(token) ) {
+    stop("You need to provide a request token. Check RP_APIRequestDataFile to generate a request.")
+  }
+
   waitTime = 10 # Waiting time (in seconds) between checks
-  status = RP_APICheckFileAvailability(APIHandler = APIHandler, token = requestToken$TOKEN)
+  status = RP_APICheckFileAvailability(APIHandler = APIHandler, token = token)
   currentStatus = status$STATUS
 
   # Check if polling is needed (status 'enqueued' or 'processing')
@@ -108,22 +129,18 @@ RP_APIWaitForJobCompletion = function ( APIHandler, token, timeout = 60) {
       Sys.sleep(waitTime)
       print(paste("Check",iteration,"out of",pollIterations,"..."))
 
-      status = RP_APICheckFileAvailability(APIHandler = APIHandler, token = requestToken$TOKEN)
+      status = RP_APICheckFileAvailability(APIHandler = APIHandler, token = token)
       currentStatus = status$STATUS
       iteration = iteration + 1
     }
   }
 
-    # Check Status
-    if (currentStatus == 'completed') {
-      result = 'completed'
-    } else if (currentStatus == 'error') {
-      result = 'error'
-    } else if (currentStatus == 'cancelled') {
-      result = 'cancelled'
-    } else {
-      result =  paste0(currentStatus,'_TIMEOUT')
-    }
+  # Check Status
+  if ( currentStatus %in% c('completed', 'error', 'cancelled') ) {
+    result = currentStatus
+  } else {
+    result =  paste0(currentStatus,'_TIMEOUT')
+  }
 
   print(result)
 

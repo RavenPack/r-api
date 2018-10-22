@@ -12,7 +12,8 @@ RP_APIDeleteDataSet(APIHandler, datasetUUID)
 \item{datasetUUID}{A string with the dataset identifier to delete.}
 }
 \value{
-TRUE if the dataset was successfully deleted. An error message otherwise.
+A list with the delete results if the dataset was successfully deleted. An Error otherwise.
+The delete results contains a 'message' field.
 }
 \description{
 Deletes a dataset.

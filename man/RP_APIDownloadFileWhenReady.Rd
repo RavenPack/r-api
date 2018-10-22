@@ -4,16 +4,19 @@
 \alias{RP_APIDownloadFileWhenReady}
 \title{RP_APIDownloadFileWhenReady}
 \usage{
-RP_APIDownloadFileWhenReady(APIHandler, token, outputFile, timeout)
+RP_APIDownloadFileWhenReady(APIHandler, token, outputFile, timeout = 60)
 }
 \arguments{
 \item{APIHandler}{An API handler, created using RP_CreateAPIHandler.}
 
-\item{token}{A string that identifies the request.}
+\item{token}{A string that identifies the request. Check RP_APIRequestDataFile to generate a request.}
 
-\item{outputFile}{Output filename}
+\item{outputFile}{Output filename.}
 
-\item{timeout:}{time (in seconds) to wait for download}
+\item{timeout:}{time (in seconds) to wait for download. Default 60.}
+}
+\value{
+TRUE if the download was successful. An Error otherwise.
 }
 \description{
 Downloads a request file when it is ready.
