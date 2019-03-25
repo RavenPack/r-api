@@ -98,7 +98,7 @@ Here is a full example, including payload:
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "B07135145162C598236744196F8059BF"
+    ## [1] "B16F878A3253F450278B033D0C6FC056"
 
 ### List all Datasets
 
@@ -111,64 +111,64 @@ using RavenPack or Private datasets that were created by you.
 The list of datasets returns the dataset\_uuid and name for each
 dataset.
 
-    payload_list = list(scope = list("private","public"), tags = list("Europe Countries"))
+    payload_list = list(scope = list("private","public"), tags = list("Europe_Countries"))
     dataSetList = RP_APIListDataSet(APIHandler = APIHandler, params = payload_list)
     dataSetList
 
     ##           UUID                   NAME             TAGS CREATION_TIME
-    ##  1: country-md                Moldova Europe Countries            NA
-    ##  2: country-lu             Luxembourg Europe Countries            NA
-    ##  3: country-be                Belgium Europe Countries            NA
-    ##  4: country-de                Germany Europe Countries            NA
-    ##  5: country-ie                Ireland Europe Countries            NA
-    ##  6: country-bg               Bulgaria Europe Countries            NA
-    ##  7: country-mt                  Malta Europe Countries            NA
-    ##  8: country-ax          Aland Islands Europe Countries            NA
-    ##  9: country-gg               Guernsey Europe Countries            NA
-    ## 10: country-is                Iceland Europe Countries            NA
-    ## 11: country-fo          Faroe Islands Europe Countries            NA
-    ## 12: country-fr                 France Europe Countries            NA
-    ## 13: country-hr                Croatia Europe Countries            NA
-    ## 14: country-gi              Gibraltar Europe Countries            NA
-    ## 15: country-by                Belarus Europe Countries            NA
-    ## 16: country-cy                 Cyprus Europe Countries            NA
-    ## 17: country-li          Liechtenstein Europe Countries            NA
-    ## 18: country-gr                 Greece Europe Countries            NA
-    ## 19: country-at                Austria Europe Countries            NA
-    ## 20: country-ad                Andorra Europe Countries            NA
-    ## 21: country-mk              Macedonia Europe Countries            NA
-    ## 22: country-je                 Jersey Europe Countries            NA
-    ## 23: country-ee                Estonia Europe Countries            NA
-    ## 24: country-lt              Lithuania Europe Countries            NA
-    ## 25: country-it                  Italy Europe Countries            NA
-    ## 26: country-hu                Hungary Europe Countries            NA
-    ## 27: country-im            Isle of Man Europe Countries            NA
-    ## 28: country-fi                Finland Europe Countries            NA
-    ## 29: country-lv                 Latvia Europe Countries            NA
-    ## 30: country-xk                 Kosovo Europe Countries            NA
-    ## 31: country-dk                Denmark Europe Countries            NA
-    ## 32: country-cz         Czech Republic Europe Countries            NA
-    ## 33: country-ba Bosnia and Herzegovina Europe Countries            NA
-    ## 34: country-al                Albania Europe Countries            NA
-    ## 35: country-rs                 Serbia Europe Countries            NA
-    ## 36: country-me             Montenegro Europe Countries            NA
-    ## 37: country-ru                 Russia Europe Countries            NA
-    ## 38: country-se                 Sweden Europe Countries            NA
-    ## 39: country-sm             San Marino Europe Countries            NA
-    ## 40: country-nl        The Netherlands Europe Countries            NA
-    ## 41: country-sk               Slovakia Europe Countries            NA
-    ## 42: country-es                  Spain Europe Countries            NA
-    ## 43: country-ro                Romania Europe Countries            NA
-    ## 44: country-sj Svalbard and Jan Mayen Europe Countries            NA
-    ## 45: country-gb         United Kingdom Europe Countries            NA
-    ## 46: country-ch            Switzerland Europe Countries            NA
-    ## 47: country-si               Slovenia Europe Countries            NA
-    ## 48: country-va                Vatican Europe Countries            NA
-    ## 49: country-ua                Ukraine Europe Countries            NA
-    ## 50: country-pt               Portugal Europe Countries            NA
-    ## 51: country-pl                 Poland Europe Countries            NA
-    ## 52: country-mc                 Monaco Europe Countries            NA
-    ## 53: country-no                 Norway Europe Countries            NA
+    ##  1: country-fi                Finland Europe_Countries            NA
+    ##  2: country-xk                 Kosovo Europe_Countries            NA
+    ##  3: country-fo          Faroe Islands Europe_Countries            NA
+    ##  4: country-gr                 Greece Europe_Countries            NA
+    ##  5: country-ax          Aland Islands Europe_Countries            NA
+    ##  6: country-be                Belgium Europe_Countries            NA
+    ##  7: country-je                 Jersey Europe_Countries            NA
+    ##  8: country-al                Albania Europe_Countries            NA
+    ##  9: country-gi              Gibraltar Europe_Countries            NA
+    ## 10: country-ie                Ireland Europe_Countries            NA
+    ## 11: country-de                Germany Europe_Countries            NA
+    ## 12: country-bg               Bulgaria Europe_Countries            NA
+    ## 13: country-cy                 Cyprus Europe_Countries            NA
+    ## 14: country-dk                Denmark Europe_Countries            NA
+    ## 15: country-hr                Croatia Europe_Countries            NA
+    ## 16: country-fr                 France Europe_Countries            NA
+    ## 17: country-ad                Andorra Europe_Countries            NA
+    ## 18: country-at                Austria Europe_Countries            NA
+    ## 19: country-is                Iceland Europe_Countries            NA
+    ## 20: country-hu                Hungary Europe_Countries            NA
+    ## 21: country-cz         Czech Republic Europe_Countries            NA
+    ## 22: country-ee                Estonia Europe_Countries            NA
+    ## 23: country-im            Isle of Man Europe_Countries            NA
+    ## 24: country-ba Bosnia and Herzegovina Europe_Countries            NA
+    ## 25: country-it                  Italy Europe_Countries            NA
+    ## 26: country-lv                 Latvia Europe_Countries            NA
+    ## 27: country-by                Belarus Europe_Countries            NA
+    ## 28: country-gg               Guernsey Europe_Countries            NA
+    ## 29: country-li          Liechtenstein Europe_Countries            NA
+    ## 30: country-me             Montenegro Europe_Countries            NA
+    ## 31: country-se                 Sweden Europe_Countries            NA
+    ## 32: country-mk              Macedonia Europe_Countries            NA
+    ## 33: country-mc                 Monaco Europe_Countries            NA
+    ## 34: country-pt               Portugal Europe_Countries            NA
+    ## 35: country-sk               Slovakia Europe_Countries            NA
+    ## 36: country-pl                 Poland Europe_Countries            NA
+    ## 37: country-lu             Luxembourg Europe_Countries            NA
+    ## 38: country-si               Slovenia Europe_Countries            NA
+    ## 39: country-md                Moldova Europe_Countries            NA
+    ## 40: country-sj Svalbard and Jan Mayen Europe_Countries            NA
+    ## 41: country-gb         United Kingdom Europe_Countries            NA
+    ## 42: country-es                  Spain Europe_Countries            NA
+    ## 43: country-ro                Romania Europe_Countries            NA
+    ## 44: country-sm             San Marino Europe_Countries            NA
+    ## 45: country-va                Vatican Europe_Countries            NA
+    ## 46: country-ch            Switzerland Europe_Countries            NA
+    ## 47: country-ru                 Russia Europe_Countries            NA
+    ## 48: country-rs                 Serbia Europe_Countries            NA
+    ## 49: country-ua                Ukraine Europe_Countries            NA
+    ## 50: country-nl        The Netherlands Europe_Countries            NA
+    ## 51: country-no                 Norway Europe_Countries            NA
+    ## 52: country-mt                  Malta Europe_Countries            NA
+    ## 53: country-lt              Lithuania Europe_Countries            NA
     ##           UUID                   NAME             TAGS CREATION_TIME
 
 ### Get Details for a Dataset
@@ -223,7 +223,7 @@ Here is a full example including payload syntax:
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset B07135145162C598236744196F8059BF successfully modified."
+    ## [1] "Dataset B16F878A3253F450278B033D0C6FC056 successfully modified."
 
 ### Delete a Dataset
 
@@ -269,12 +269,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "C86F96EA99C4BD0859BD54A9801055EA"
+    ## [1] "9619CBBC3FA1BD8415E2472BDF953889"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2018-09-05 14:58:00 UTC"
+    ## [1] "2019-03-25 14:17:41 UTC"
 
 ### Analytics Count
 
@@ -302,7 +302,7 @@ request status using the following code:
     status
 
     ## $STATUS
-    ## [1] "enqueued"
+    ## [1] "processing"
     ## 
     ## $START_DATE
     ## [1] "2017-01-01 00:00:00"
@@ -314,10 +314,10 @@ request status using the following code:
     ## [1] "Europe/Madrid"
     ## 
     ## $SUBMITTED
-    ## [1] "2018-09-05 14:58:00 UTC"
+    ## [1] "2019-03-25 14:17:41 UTC"
     ## 
     ## $TOKEN
-    ## [1] "C86F96EA99C4BD0859BD54A9801055EA"
+    ## [1] "9619CBBC3FA1BD8415E2472BDF953889"
     ## 
     ## $SIZE
     ## NULL
