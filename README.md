@@ -17,8 +17,18 @@ documentation](https://app.ravenpack.com/api-documentation/).
 Installation
 ------------
 
-First, you need to install the devtools package. You can do this from
-CRAN. Invoke R and then type
+There are 2 options to install the library:
+
+1.  From library sources
+
+2.  From the compiled package file.
+
+Select the option you prefer.
+
+### Option 1: Installing from Sources
+
+First, you need to install the *devtools* package. You can do this from
+CRAN. Invoke R and then type:
 
     install.packages("devtools")
 
@@ -27,6 +37,19 @@ code below.
 
     library(devtools)
     install_github("RavenPack/r-api")
+
+### Option 2: Installing from Package
+
+Download **/r-api-package/RPSelfServiceAPI\_1.101.tar.gz** file to your
+machine. Then, invoke R and execute the following instruction.
+
+NOTE that *PATH\_TO\_FILE* must be replaced by the path of the
+RPSelfServiceAPI\_1.101.tar.gz file in your machine.
+
+    install.packages( "PATH_TO_FILE", repos = NULL, type="source")
+
+    # For example:
+    # install.packages( "/home/r-api-package/RPSelfServiceAPI_1.101.tar.gz", repos = NULL, type="source") 
 
 Authentication
 --------------
@@ -98,7 +121,7 @@ Here is a full example, including payload:
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "B16F878A3253F450278B033D0C6FC056"
+    ## [1] "956D657BDA4F7110A2D357EB682812D8"
 
 ### List all Datasets
 
@@ -117,58 +140,58 @@ dataset.
 
     ##           UUID                   NAME             TAGS CREATION_TIME
     ##  1: country-fi                Finland Europe_Countries            NA
-    ##  2: country-xk                 Kosovo Europe_Countries            NA
-    ##  3: country-fo          Faroe Islands Europe_Countries            NA
-    ##  4: country-gr                 Greece Europe_Countries            NA
+    ##  2: country-gr                 Greece Europe_Countries            NA
+    ##  3: country-xk                 Kosovo Europe_Countries            NA
+    ##  4: country-be                Belgium Europe_Countries            NA
     ##  5: country-ax          Aland Islands Europe_Countries            NA
-    ##  6: country-be                Belgium Europe_Countries            NA
-    ##  7: country-je                 Jersey Europe_Countries            NA
-    ##  8: country-al                Albania Europe_Countries            NA
-    ##  9: country-gi              Gibraltar Europe_Countries            NA
-    ## 10: country-ie                Ireland Europe_Countries            NA
-    ## 11: country-de                Germany Europe_Countries            NA
-    ## 12: country-bg               Bulgaria Europe_Countries            NA
-    ## 13: country-cy                 Cyprus Europe_Countries            NA
-    ## 14: country-dk                Denmark Europe_Countries            NA
-    ## 15: country-hr                Croatia Europe_Countries            NA
-    ## 16: country-fr                 France Europe_Countries            NA
-    ## 17: country-ad                Andorra Europe_Countries            NA
-    ## 18: country-at                Austria Europe_Countries            NA
-    ## 19: country-is                Iceland Europe_Countries            NA
-    ## 20: country-hu                Hungary Europe_Countries            NA
-    ## 21: country-cz         Czech Republic Europe_Countries            NA
-    ## 22: country-ee                Estonia Europe_Countries            NA
-    ## 23: country-im            Isle of Man Europe_Countries            NA
-    ## 24: country-ba Bosnia and Herzegovina Europe_Countries            NA
-    ## 25: country-it                  Italy Europe_Countries            NA
-    ## 26: country-lv                 Latvia Europe_Countries            NA
-    ## 27: country-by                Belarus Europe_Countries            NA
-    ## 28: country-gg               Guernsey Europe_Countries            NA
-    ## 29: country-li          Liechtenstein Europe_Countries            NA
+    ##  6: country-fo          Faroe Islands Europe_Countries            NA
+    ##  7: country-hr                Croatia Europe_Countries            NA
+    ##  8: country-dk                Denmark Europe_Countries            NA
+    ##  9: country-at                Austria Europe_Countries            NA
+    ## 10: country-hu                Hungary Europe_Countries            NA
+    ## 11: country-fr                 France Europe_Countries            NA
+    ## 12: country-ad                Andorra Europe_Countries            NA
+    ## 13: country-is                Iceland Europe_Countries            NA
+    ## 14: country-ie                Ireland Europe_Countries            NA
+    ## 15: country-de                Germany Europe_Countries            NA
+    ## 16: country-al                Albania Europe_Countries            NA
+    ## 17: country-gi              Gibraltar Europe_Countries            NA
+    ## 18: country-cy                 Cyprus Europe_Countries            NA
+    ## 19: country-bg               Bulgaria Europe_Countries            NA
+    ## 20: country-je                 Jersey Europe_Countries            NA
+    ## 21: country-by                Belarus Europe_Countries            NA
+    ## 22: country-gg               Guernsey Europe_Countries            NA
+    ## 23: country-it                  Italy Europe_Countries            NA
+    ## 24: country-im            Isle of Man Europe_Countries            NA
+    ## 25: country-ee                Estonia Europe_Countries            NA
+    ## 26: country-ba Bosnia and Herzegovina Europe_Countries            NA
+    ## 27: country-cz         Czech Republic Europe_Countries            NA
+    ## 28: country-pt               Portugal Europe_Countries            NA
+    ## 29: country-se                 Sweden Europe_Countries            NA
     ## 30: country-me             Montenegro Europe_Countries            NA
-    ## 31: country-se                 Sweden Europe_Countries            NA
-    ## 32: country-mk              Macedonia Europe_Countries            NA
-    ## 33: country-mc                 Monaco Europe_Countries            NA
-    ## 34: country-pt               Portugal Europe_Countries            NA
-    ## 35: country-sk               Slovakia Europe_Countries            NA
+    ## 31: country-mc                 Monaco Europe_Countries            NA
+    ## 32: country-li          Liechtenstein Europe_Countries            NA
+    ## 33: country-mk              Macedonia Europe_Countries            NA
+    ## 34: country-md                Moldova Europe_Countries            NA
+    ## 35: country-lu             Luxembourg Europe_Countries            NA
     ## 36: country-pl                 Poland Europe_Countries            NA
-    ## 37: country-lu             Luxembourg Europe_Countries            NA
-    ## 38: country-si               Slovenia Europe_Countries            NA
-    ## 39: country-md                Moldova Europe_Countries            NA
-    ## 40: country-sj Svalbard and Jan Mayen Europe_Countries            NA
-    ## 41: country-gb         United Kingdom Europe_Countries            NA
+    ## 37: country-si               Slovenia Europe_Countries            NA
+    ## 38: country-sk               Slovakia Europe_Countries            NA
+    ## 39: country-sm             San Marino Europe_Countries            NA
+    ## 40: country-ru                 Russia Europe_Countries            NA
+    ## 41: country-ch            Switzerland Europe_Countries            NA
     ## 42: country-es                  Spain Europe_Countries            NA
     ## 43: country-ro                Romania Europe_Countries            NA
-    ## 44: country-sm             San Marino Europe_Countries            NA
-    ## 45: country-va                Vatican Europe_Countries            NA
-    ## 46: country-ch            Switzerland Europe_Countries            NA
-    ## 47: country-ru                 Russia Europe_Countries            NA
-    ## 48: country-rs                 Serbia Europe_Countries            NA
-    ## 49: country-ua                Ukraine Europe_Countries            NA
-    ## 50: country-nl        The Netherlands Europe_Countries            NA
-    ## 51: country-no                 Norway Europe_Countries            NA
+    ## 44: country-sj Svalbard and Jan Mayen Europe_Countries            NA
+    ## 45: country-gb         United Kingdom Europe_Countries            NA
+    ## 46: country-va                Vatican Europe_Countries            NA
+    ## 47: country-rs                 Serbia Europe_Countries            NA
+    ## 48: country-lt              Lithuania Europe_Countries            NA
+    ## 49: country-nl        The Netherlands Europe_Countries            NA
+    ## 50: country-no                 Norway Europe_Countries            NA
+    ## 51: country-ua                Ukraine Europe_Countries            NA
     ## 52: country-mt                  Malta Europe_Countries            NA
-    ## 53: country-lt              Lithuania Europe_Countries            NA
+    ## 53: country-lv                 Latvia Europe_Countries            NA
     ##           UUID                   NAME             TAGS CREATION_TIME
 
 ### Get Details for a Dataset
@@ -223,7 +246,7 @@ Here is a full example including payload syntax:
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset B16F878A3253F450278B033D0C6FC056 successfully modified."
+    ## [1] "Dataset 956D657BDA4F7110A2D357EB682812D8 successfully modified."
 
 ### Delete a Dataset
 
@@ -269,12 +292,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "9619CBBC3FA1BD8415E2472BDF953889"
+    ## [1] "AD52A19F183A41D596DF0BBF85EC9540"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2019-03-25 14:17:41 UTC"
+    ## [1] "2019-07-19 11:55:13 UTC"
 
 ### Analytics Count
 
@@ -314,10 +337,10 @@ request status using the following code:
     ## [1] "Europe/Madrid"
     ## 
     ## $SUBMITTED
-    ## [1] "2019-03-25 14:17:41 UTC"
+    ## [1] "2019-07-19 11:55:13 UTC"
     ## 
     ## $TOKEN
-    ## [1] "9619CBBC3FA1BD8415E2472BDF953889"
+    ## [1] "AD52A19F183A41D596DF0BBF85EC9540"
     ## 
     ## $SIZE
     ## NULL
@@ -331,11 +354,11 @@ request status using the following code:
     ## $TAGS
     ## list()
 
-When the job is complete, the status will be updated to "completed".
+When the job is complete, the status will be updated to “completed”.
 
 ### Cancel a Request
 
-If a datafile generation job has the status "enqueued", it may be
+If a datafile generation job has the status “enqueued”, it may be
 cancelled. To cancel a job:
 
     serverResponse = RP_APICancelRequest(APIHandler = APIHandler, token = requestToken$TOKEN)
@@ -344,14 +367,13 @@ If the job is finished or processing, you will get an error.
 
 ### Download a Request
 
-Once the status of the request is "completed", the datafile can be
+Once the status of the request is “completed”, the datafile can be
 downloaded. You have to provide a name for the datafile. Make sure your
-extension matches the format you requested (csv, xls,...). In
-particular, if compression was requested, you will be receiving a zip
-file.
+extension matches the format you requested (csv, xls,…). In particular,
+if compression was requested, you will be receiving a zip file.
 
 If you try to download the dataset before the request has completed, you
-will receive an error message: 'The Request status is not complete.'.
+will receive an error message: ‘The Request status is not complete.’.
 Please wait until the request is completed to perform the download. You
 can use the *RP\_APIWaitForJobCompletion* function to wait until the
 request is completed. The *timeout* parameter specifies the maximum
@@ -492,7 +514,7 @@ data.table. Here is how:
 Entities
 --------
 
-### Map Entity Identifiers into RavenPack's Entity Universe
+### Map Entity Identifiers into RavenPack’s Entity Universe
 
 The entity-mapping endpoint may be used to map from a universe of entity
 or security identifiers into RavenPack’s entity universe. One may pass
