@@ -22,19 +22,24 @@ RP_CreateAPIHandler = function(APIKey) {
   }
   if (Sys.getenv("RPServerAPI")=='STAGING') {
     # Staging API
-    APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
+    APIHandler = list(APIKEY = APIKey,
+                      ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
                                                                           BASE_ENDPOINT = c('https://api-staging.ravenpack.com/1.0/',
-                                                                                            'https://staging-feed.ravenpack.com/1.0/')))
+                                                                                            'https://staging-feed.ravenpack.com/1.0/')),
+                      ENV = 'STAGING')
+
   } else if (Sys.getenv("RPServerAPI")=='PREPROD') {
     # Staging API
     APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
                                                                           BASE_ENDPOINT = c('https://api-pre.ravenpack.com/1.0/',
-                                                                                            'https://staging-feed.ravenpack.com/1.0/')))
+                                                                                            'https://staging-feed.ravenpack.com/1.0/')),
+                      ENV = 'PREPROD')
   } else {
     # Production API
     APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
                                                                           BASE_ENDPOINT = c('https://api.ravenpack.com/1.0/',
-                                                                                            'https://feed.ravenpack.com/1.0/')))
+                                                                                            'https://feed.ravenpack.com/1.0/')),
+                      ENV = 'PROD')
   }
 
 
@@ -116,7 +121,8 @@ RP_APIStatus = function(APIHandler) {
 #' @param APIHandler An API handler, created using RP_CreateAPIHandler
 #' @param params A list with the request query parameters.
 #' \itemize{ \item{tags: }{Optional. A list of tags that should be used to filter the list of datasets returned.}
-#' \item{scope: }{Optional. A list with the desired scope: [public, shared, private (default)]}}
+#' \item{scope: }{Optional. A list with the desired scope: [public, shared, private (default)]}
+#' \item{frequency: }{Optional. A list with the desired  type of dataset: [daily, granular]}}
 #' @return A data.table with the datasets.
 #' @author Jose A. Guerrero-Colon
 #' @export
@@ -128,7 +134,7 @@ RP_APIListDataSet = function(APIHandler, params = list()) {
   if (missing(APIHandler)) {
     stop("You need to provide a valid APIHandler.")
   }
-  paramNames = c('scope','tags')
+  paramNames = c('scope','tags','frequency')
   ScopeFields = c('public','shared', 'private')
   # Checking paramenters
   if (length(params)!=0) {
@@ -584,7 +590,7 @@ RP_APIRequestDataFile = function(APIHandler, payload, datasetUUID) {
       serverResponse = jsonlite::fromJSON(ResStr)
       if ("token"%in% names(serverResponse)) {
 
-        dataDump = list(TOKEN = serverResponse$token, ETA= serverResponse$estimated_completion)
+        dataDump = list(TOKEN = serverResponse$token, ETA = serverResponse$estimated_completion)
         token = serverResponse$token
 
 

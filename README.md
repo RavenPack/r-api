@@ -1,3 +1,41 @@
+-   [Introduction](#introduction)
+-   [Installation](#installation)
+    -   [Option 1: Installing from
+        Sources](#option-1-installing-from-sources)
+    -   [Option 2: Installing from
+        Package](#option-2-installing-from-package)
+-   [Authentication](#authentication)
+-   [Status](#status)
+-   [Datasets](#datasets)
+    -   [Create a Dataset](#create-a-dataset)
+    -   [List all Datasets](#list-all-datasets)
+    -   [Get Details for a Dataset](#get-details-for-a-dataset)
+    -   [Modify an Existing Dataset](#modify-an-existing-dataset)
+    -   [Delete a Dataset](#delete-a-dataset)
+-   [Datafiles](#datafiles)
+    -   [Generate a data file](#generate-a-data-file)
+    -   [Analytics Count](#analytics-count)
+    -   [Datafile Generation Status](#datafile-generation-status)
+    -   [Cancel a Request](#cancel-a-request)
+    -   [Download a Request](#download-a-request)
+    -   [Download a Request when Ready](#download-a-request-when-ready)
+-   [JSON Queries](#json-queries)
+    -   [Adhoc Request for Data](#adhoc-request-for-data)
+    -   [Adhoc Request for Dataset](#adhoc-request-for-dataset)
+    -   [Preview of a Dataset](#preview-of-a-dataset)
+-   [Entities](#entities)
+    -   [Map Entity Identifiers into RavenPack’s Entity
+        Universe](#map-entity-identifiers-into-ravenpacks-entity-universe)
+    -   [Get a Reference Data File](#get-a-reference-data-file)
+    -   [Get Reference Data for an
+        Entity](#get-reference-data-for-an-entity)
+-   [Taxonomy](#taxonomy)
+    -   [Querying the Event Taxonomy](#querying-the-event-taxonomy)
+-   [Real Time Feed](#real-time-feed)
+    -   [Subscribing to a Feed](#subscribing-to-a-feed)
+-   [FAQ](#faq)
+    -   [Authentication issues](#authentication-issues)
+
 Introduction
 ------------
 
@@ -21,7 +59,7 @@ There are 2 options to install the library:
 
 1.  From library sources
 
-2.  From the compiled package file.
+2.  From the compiled package.
 
 Select the option you prefer.
 
@@ -40,16 +78,19 @@ code below.
 
 ### Option 2: Installing from Package
 
-Download **/r-api-package/RPSelfServiceAPI\_1.101.tar.gz** file to your
-machine. Then, invoke R and execute the following instruction.
+Download **/r-api-package/RPSelfServiceAPI\_&lt;VERSION&gt;.tar.gz**
+file to your machine. Then, invoke R and execute the following
+instruction.
 
-NOTE that *PATH\_TO\_FILE* must be replaced by the path of the
-RPSelfServiceAPI\_1.101.tar.gz file in your machine.
+NOTE: *PATH\_TO\_FILE* must be replaced by the path of the
+RPSelfServiceAPI\_&lt;VERSION&gt;.tar.gz file in your machine.
+*&lt;VERSION&gt;* must be replaced by the available version number. For
+example *RPSelfServiceAPI\_1\_102.tar.gz*.
 
     install.packages( "PATH_TO_FILE", repos = NULL, type="source")
 
     # For example:
-    # install.packages( "/home/r-api-package/RPSelfServiceAPI_1.101.tar.gz", repos = NULL, type="source") 
+    # install.packages( "/home/r-api-package/RPSelfServiceAPI_1_102.tar.gz", repos = NULL, type="source") 
 
 Authentication
 --------------
@@ -121,77 +162,81 @@ Here is a full example, including payload:
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "956D657BDA4F7110A2D357EB682812D8"
+    ## [1] "A2650A16C8947F4319A14A28A2696566"
 
 ### List all Datasets
 
 Get a list of the datasets that you have permission to access. You may
 filter the list by tags and search for only the list of datasets that
-have the tags specified, or you may filter by scope, and return only the
-datasets that are Public to everyone, Shared with you by someone else
-using RavenPack or Private datasets that were created by you.
+have the tags specified. You may also filter by scope, and return only
+the datasets that are *Public* to everyone, *Shared* with you by someone
+else using RavenPack, or *Private* datasets that were created by you.
+Filtering by frequency allows you to retrieve *granular* or *daily*
+datasets.
 
-The list of datasets returns the dataset\_uuid and name for each
-dataset.
+The list of datasets returns the dataset\_uuid, name and creation time
+(if available) for each dataset.
 
-    payload_list = list(scope = list("private","public"), tags = list("Europe_Countries"))
+    payload_list = list( scope = list("private","public"),
+                         tags = list("Europe_Countries"),
+                         frequency = list('daily','granular') )
     dataSetList = RP_APIListDataSet(APIHandler = APIHandler, params = payload_list)
     dataSetList
 
     ##           UUID                   NAME             TAGS CREATION_TIME
-    ##  1: country-fi                Finland Europe_Countries            NA
-    ##  2: country-gr                 Greece Europe_Countries            NA
-    ##  3: country-xk                 Kosovo Europe_Countries            NA
-    ##  4: country-be                Belgium Europe_Countries            NA
-    ##  5: country-ax          Aland Islands Europe_Countries            NA
-    ##  6: country-fo          Faroe Islands Europe_Countries            NA
-    ##  7: country-hr                Croatia Europe_Countries            NA
-    ##  8: country-dk                Denmark Europe_Countries            NA
-    ##  9: country-at                Austria Europe_Countries            NA
-    ## 10: country-hu                Hungary Europe_Countries            NA
+    ##  1: country-gr                 Greece Europe_Countries            NA
+    ##  2: country-ax          Aland Islands Europe_Countries            NA
+    ##  3: country-fo          Faroe Islands Europe_Countries            NA
+    ##  4: country-fi                Finland Europe_Countries            NA
+    ##  5: country-be                Belgium Europe_Countries            NA
+    ##  6: country-hr                Croatia Europe_Countries            NA
+    ##  7: country-is                Iceland Europe_Countries            NA
+    ##  8: country-at                Austria Europe_Countries            NA
+    ##  9: country-ad                Andorra Europe_Countries            NA
+    ## 10: country-dk                Denmark Europe_Countries            NA
     ## 11: country-fr                 France Europe_Countries            NA
-    ## 12: country-ad                Andorra Europe_Countries            NA
-    ## 13: country-is                Iceland Europe_Countries            NA
+    ## 12: country-hu                Hungary Europe_Countries            NA
+    ## 13: country-de                Germany Europe_Countries            NA
     ## 14: country-ie                Ireland Europe_Countries            NA
-    ## 15: country-de                Germany Europe_Countries            NA
-    ## 16: country-al                Albania Europe_Countries            NA
-    ## 17: country-gi              Gibraltar Europe_Countries            NA
-    ## 18: country-cy                 Cyprus Europe_Countries            NA
-    ## 19: country-bg               Bulgaria Europe_Countries            NA
-    ## 20: country-je                 Jersey Europe_Countries            NA
-    ## 21: country-by                Belarus Europe_Countries            NA
-    ## 22: country-gg               Guernsey Europe_Countries            NA
+    ## 15: country-gi              Gibraltar Europe_Countries            NA
+    ## 16: country-bg               Bulgaria Europe_Countries            NA
+    ## 17: country-cy                 Cyprus Europe_Countries            NA
+    ## 18: country-al                Albania Europe_Countries            NA
+    ## 19: country-cz         Czech Republic Europe_Countries            NA
+    ## 20: country-im            Isle of Man Europe_Countries            NA
+    ## 21: country-ee                Estonia Europe_Countries            NA
+    ## 22: country-ba Bosnia and Herzegovina Europe_Countries            NA
     ## 23: country-it                  Italy Europe_Countries            NA
-    ## 24: country-im            Isle of Man Europe_Countries            NA
-    ## 25: country-ee                Estonia Europe_Countries            NA
-    ## 26: country-ba Bosnia and Herzegovina Europe_Countries            NA
-    ## 27: country-cz         Czech Republic Europe_Countries            NA
-    ## 28: country-pt               Portugal Europe_Countries            NA
-    ## 29: country-se                 Sweden Europe_Countries            NA
-    ## 30: country-me             Montenegro Europe_Countries            NA
-    ## 31: country-mc                 Monaco Europe_Countries            NA
-    ## 32: country-li          Liechtenstein Europe_Countries            NA
-    ## 33: country-mk              Macedonia Europe_Countries            NA
-    ## 34: country-md                Moldova Europe_Countries            NA
-    ## 35: country-lu             Luxembourg Europe_Countries            NA
-    ## 36: country-pl                 Poland Europe_Countries            NA
-    ## 37: country-si               Slovenia Europe_Countries            NA
-    ## 38: country-sk               Slovakia Europe_Countries            NA
-    ## 39: country-sm             San Marino Europe_Countries            NA
-    ## 40: country-ru                 Russia Europe_Countries            NA
-    ## 41: country-ch            Switzerland Europe_Countries            NA
-    ## 42: country-es                  Spain Europe_Countries            NA
-    ## 43: country-ro                Romania Europe_Countries            NA
-    ## 44: country-sj Svalbard and Jan Mayen Europe_Countries            NA
+    ## 24: country-gg               Guernsey Europe_Countries            NA
+    ## 25: country-by                Belarus Europe_Countries            NA
+    ## 26: country-se                 Sweden Europe_Countries            NA
+    ## 27: country-pt               Portugal Europe_Countries            NA
+    ## 28: country-mc                 Monaco Europe_Countries            NA
+    ## 29: country-li          Liechtenstein Europe_Countries            NA
+    ## 30: country-mk        North Macedonia Europe_Countries            NA
+    ## 31: country-xk                 Kosovo Europe_Countries            NA
+    ## 32: country-me             Montenegro Europe_Countries            NA
+    ## 33: country-pl                 Poland Europe_Countries            NA
+    ## 34: country-si               Slovenia Europe_Countries            NA
+    ## 35: country-sk               Slovakia Europe_Countries            NA
+    ## 36: country-lu             Luxembourg Europe_Countries            NA
+    ## 37: country-md                Moldova Europe_Countries            NA
+    ## 38: country-sm             San Marino Europe_Countries            NA
+    ## 39: country-ro                Romania Europe_Countries            NA
+    ## 40: country-je                 Jersey Europe_Countries            NA
+    ## 41: country-ru                 Russia Europe_Countries            NA
+    ## 42: country-ch            Switzerland Europe_Countries            NA
+    ## 43: country-va                Vatican Europe_Countries            NA
+    ## 44: country-es                  Spain Europe_Countries            NA
     ## 45: country-gb         United Kingdom Europe_Countries            NA
-    ## 46: country-va                Vatican Europe_Countries            NA
+    ## 46: country-sj Svalbard and Jan Mayen Europe_Countries            NA
     ## 47: country-rs                 Serbia Europe_Countries            NA
-    ## 48: country-lt              Lithuania Europe_Countries            NA
-    ## 49: country-nl        The Netherlands Europe_Countries            NA
-    ## 50: country-no                 Norway Europe_Countries            NA
+    ## 48: country-lv                 Latvia Europe_Countries            NA
+    ## 49: country-no                 Norway Europe_Countries            NA
+    ## 50: country-mt                  Malta Europe_Countries            NA
     ## 51: country-ua                Ukraine Europe_Countries            NA
-    ## 52: country-mt                  Malta Europe_Countries            NA
-    ## 53: country-lv                 Latvia Europe_Countries            NA
+    ## 52: country-nl        The Netherlands Europe_Countries            NA
+    ## 53: country-lt              Lithuania Europe_Countries            NA
     ##           UUID                   NAME             TAGS CREATION_TIME
 
 ### Get Details for a Dataset
@@ -246,7 +291,7 @@ Here is a full example including payload syntax:
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset 956D657BDA4F7110A2D357EB682812D8 successfully modified."
+    ## [1] "Dataset A2650A16C8947F4319A14A28A2696566 successfully modified."
 
 ### Delete a Dataset
 
@@ -292,12 +337,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "AD52A19F183A41D596DF0BBF85EC9540"
+    ## [1] "79EBF38AA5A6F077F9A5DA188ECB9DC3"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2019-07-19 11:55:13 UTC"
+    ## [1] "2019-09-09 12:02:54 UTC"
 
 ### Analytics Count
 
@@ -337,10 +382,10 @@ request status using the following code:
     ## [1] "Europe/Madrid"
     ## 
     ## $SUBMITTED
-    ## [1] "2019-07-19 11:55:13 UTC"
+    ## [1] "2019-09-09 12:02:54 UTC"
     ## 
     ## $TOKEN
-    ## [1] "AD52A19F183A41D596DF0BBF85EC9540"
+    ## [1] "79EBF38AA5A6F077F9A5DA188ECB9DC3"
     ## 
     ## $SIZE
     ## NULL

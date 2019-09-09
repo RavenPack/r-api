@@ -11,7 +11,8 @@ RP_APIListDataSet(APIHandler, params = list())
 
 \item{params}{A list with the request query parameters.
 \itemize{ \item{tags: }{Optional. A list of tags that should be used to filter the list of datasets returned.}
-\item{scope: }{Optional. A list with the desired scope: [public, shared, private (default)]}}}
+\item{scope: }{Optional. A list with the desired scope: [public, shared, private (default)]}
+\item{frequency: }{Optional. A list with the desired  type of dataset: [daily, granular]}}}
 }
 \value{
 A data.table with the datasets.
