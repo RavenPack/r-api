@@ -80,9 +80,13 @@ RP_APIDownloadFileWhenReady = function ( APIHandler, token, outputFile, timeout 
   status = RP_APIWaitForJobCompletion(APIHandler = APIHandler, token = token, timeout = timeout)
 
   if(status$STATUS == 'completed') {
-    RP_APIDownloadFile(APIHandler = APIHandler, statusInfo = status$STATUSINFO, outputFile = outputFile)
-    print( 'File successfully downloaded!' )
-    return(TRUE)
+    downloadStatus = RP_APIDownloadFile(APIHandler = APIHandler, statusInfo = status$STATUSINFO, outputFile = outputFile)
+    if( downloadStatus ) {
+      print( 'File successfully downloaded!' )
+      return(downloadStatus)
+    } else{
+      stop( 'Error downloading the file.')
+    }
   }
 
   else {
