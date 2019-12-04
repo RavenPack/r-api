@@ -31,6 +31,8 @@
         Entity](#get-reference-data-for-an-entity)
 -   [Taxonomy](#taxonomy)
     -   [Querying the Event Taxonomy](#querying-the-event-taxonomy)
+-   [Full History](#full-history)
+-   [Document](#document)
 -   [Real Time Feed](#real-time-feed)
     -   [Subscribing to a Feed](#subscribing-to-a-feed)
 -   [FAQ](#faq)
@@ -162,7 +164,7 @@ Here is a full example, including payload:
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "A2650A16C8947F4319A14A28A2696566"
+    ## [1] "8A26BDF050EE99445D6BCCF8A252F672"
 
 ### List all Datasets
 
@@ -184,59 +186,59 @@ The list of datasets returns the dataset\_uuid, name and creation time
     dataSetList
 
     ##           UUID                   NAME             TAGS CREATION_TIME
-    ##  1: country-gr                 Greece Europe_Countries            NA
-    ##  2: country-ax          Aland Islands Europe_Countries            NA
-    ##  3: country-fo          Faroe Islands Europe_Countries            NA
-    ##  4: country-fi                Finland Europe_Countries            NA
-    ##  5: country-be                Belgium Europe_Countries            NA
-    ##  6: country-hr                Croatia Europe_Countries            NA
-    ##  7: country-is                Iceland Europe_Countries            NA
-    ##  8: country-at                Austria Europe_Countries            NA
-    ##  9: country-ad                Andorra Europe_Countries            NA
-    ## 10: country-dk                Denmark Europe_Countries            NA
-    ## 11: country-fr                 France Europe_Countries            NA
-    ## 12: country-hu                Hungary Europe_Countries            NA
-    ## 13: country-de                Germany Europe_Countries            NA
-    ## 14: country-ie                Ireland Europe_Countries            NA
-    ## 15: country-gi              Gibraltar Europe_Countries            NA
+    ##  1: country-be                Belgium Europe_Countries            NA
+    ##  2: country-gr                 Greece Europe_Countries            NA
+    ##  3: country-fi                Finland Europe_Countries            NA
+    ##  4: country-ax          Aland Islands Europe_Countries            NA
+    ##  5: country-fo          Faroe Islands Europe_Countries            NA
+    ##  6: country-at                Austria Europe_Countries            NA
+    ##  7: country-hr                Croatia Europe_Countries            NA
+    ##  8: country-is                Iceland Europe_Countries            NA
+    ##  9: country-hu                Hungary Europe_Countries            NA
+    ## 10: country-fr                 France Europe_Countries            NA
+    ## 11: country-dk                Denmark Europe_Countries            NA
+    ## 12: country-ad                Andorra Europe_Countries            NA
+    ## 13: country-ie                Ireland Europe_Countries            NA
+    ## 14: country-de                Germany Europe_Countries            NA
+    ## 15: country-cy                 Cyprus Europe_Countries            NA
     ## 16: country-bg               Bulgaria Europe_Countries            NA
-    ## 17: country-cy                 Cyprus Europe_Countries            NA
+    ## 17: country-gi              Gibraltar Europe_Countries            NA
     ## 18: country-al                Albania Europe_Countries            NA
-    ## 19: country-cz         Czech Republic Europe_Countries            NA
-    ## 20: country-im            Isle of Man Europe_Countries            NA
-    ## 21: country-ee                Estonia Europe_Countries            NA
-    ## 22: country-ba Bosnia and Herzegovina Europe_Countries            NA
-    ## 23: country-it                  Italy Europe_Countries            NA
-    ## 24: country-gg               Guernsey Europe_Countries            NA
-    ## 25: country-by                Belarus Europe_Countries            NA
-    ## 26: country-se                 Sweden Europe_Countries            NA
-    ## 27: country-pt               Portugal Europe_Countries            NA
-    ## 28: country-mc                 Monaco Europe_Countries            NA
-    ## 29: country-li          Liechtenstein Europe_Countries            NA
-    ## 30: country-mk        North Macedonia Europe_Countries            NA
-    ## 31: country-xk                 Kosovo Europe_Countries            NA
-    ## 32: country-me             Montenegro Europe_Countries            NA
-    ## 33: country-pl                 Poland Europe_Countries            NA
-    ## 34: country-si               Slovenia Europe_Countries            NA
+    ## 19: country-gg               Guernsey Europe_Countries            NA
+    ## 20: country-ee                Estonia Europe_Countries            NA
+    ## 21: country-by                Belarus Europe_Countries            NA
+    ## 22: country-it                  Italy Europe_Countries            NA
+    ## 23: country-cz         Czech Republic Europe_Countries            NA
+    ## 24: country-ba Bosnia and Herzegovina Europe_Countries            NA
+    ## 25: country-im            Isle of Man Europe_Countries            NA
+    ## 26: country-mc                 Monaco Europe_Countries            NA
+    ## 27: country-mk        North Macedonia Europe_Countries            NA
+    ## 28: country-xk                 Kosovo Europe_Countries            NA
+    ## 29: country-me             Montenegro Europe_Countries            NA
+    ## 30: country-pt               Portugal Europe_Countries            NA
+    ## 31: country-li          Liechtenstein Europe_Countries            NA
+    ## 32: country-se                 Sweden Europe_Countries            NA
+    ## 33: country-si               Slovenia Europe_Countries            NA
+    ## 34: country-pl                 Poland Europe_Countries            NA
     ## 35: country-sk               Slovakia Europe_Countries            NA
     ## 36: country-lu             Luxembourg Europe_Countries            NA
     ## 37: country-md                Moldova Europe_Countries            NA
-    ## 38: country-sm             San Marino Europe_Countries            NA
+    ## 38: country-ch            Switzerland Europe_Countries            NA
     ## 39: country-ro                Romania Europe_Countries            NA
-    ## 40: country-je                 Jersey Europe_Countries            NA
-    ## 41: country-ru                 Russia Europe_Countries            NA
-    ## 42: country-ch            Switzerland Europe_Countries            NA
+    ## 40: country-sj Svalbard and Jan Mayen Europe_Countries            NA
+    ## 41: country-rs                 Serbia Europe_Countries            NA
+    ## 42: country-sm             San Marino Europe_Countries            NA
     ## 43: country-va                Vatican Europe_Countries            NA
-    ## 44: country-es                  Spain Europe_Countries            NA
-    ## 45: country-gb         United Kingdom Europe_Countries            NA
-    ## 46: country-sj Svalbard and Jan Mayen Europe_Countries            NA
-    ## 47: country-rs                 Serbia Europe_Countries            NA
-    ## 48: country-lv                 Latvia Europe_Countries            NA
+    ## 44: country-je                 Jersey Europe_Countries            NA
+    ## 45: country-es                  Spain Europe_Countries            NA
+    ## 46: country-gb         United Kingdom Europe_Countries            NA
+    ## 47: country-ru                 Russia Europe_Countries            NA
+    ## 48: country-ua                Ukraine Europe_Countries            NA
     ## 49: country-no                 Norway Europe_Countries            NA
     ## 50: country-mt                  Malta Europe_Countries            NA
-    ## 51: country-ua                Ukraine Europe_Countries            NA
-    ## 52: country-nl        The Netherlands Europe_Countries            NA
-    ## 53: country-lt              Lithuania Europe_Countries            NA
+    ## 51: country-nl        The Netherlands Europe_Countries            NA
+    ## 52: country-lt              Lithuania Europe_Countries            NA
+    ## 53: country-lv                 Latvia Europe_Countries            NA
     ##           UUID                   NAME             TAGS CREATION_TIME
 
 ### Get Details for a Dataset
@@ -291,7 +293,7 @@ Here is a full example including payload syntax:
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset A2650A16C8947F4319A14A28A2696566 successfully modified."
+    ## [1] "Dataset 8A26BDF050EE99445D6BCCF8A252F672 successfully modified."
 
 ### Delete a Dataset
 
@@ -337,12 +339,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "79EBF38AA5A6F077F9A5DA188ECB9DC3"
+    ## [1] "FA691B71052C803513F5A70709FA9C42"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2019-09-09 12:02:54 UTC"
+    ## [1] "2019-11-26 12:34:18 UTC"
 
 ### Analytics Count
 
@@ -359,7 +361,7 @@ need to be broken up into smaller subsets.
     rowCount = RP_APIGetDataFileCount(APIHandler = APIHandler, payload = payload_count, datasetUUID = datasetUUID)
     rowCount
 
-    ## [1] 3
+    ## [1] 2
 
 ### Datafile Generation Status
 
@@ -382,10 +384,10 @@ request status using the following code:
     ## [1] "Europe/Madrid"
     ## 
     ## $SUBMITTED
-    ## [1] "2019-09-09 12:02:54 UTC"
+    ## [1] "2019-11-26 12:34:18 UTC"
     ## 
     ## $TOKEN
-    ## [1] "79EBF38AA5A6F077F9A5DA188ECB9DC3"
+    ## [1] "FA691B71052C803513F5A70709FA9C42"
     ## 
     ## $SIZE
     ## NULL
@@ -497,8 +499,8 @@ Here is a full example:
     ## 1: 2017-01-01 23:00:00 2017-01-02 00:00:00       D8442A
     ## 2: 2017-01-01 23:00:00 2017-01-02 00:00:00       ROLLUP
     ##                        ENTITY_NAME AVERAGE_ESS
-    ## 1:                      Apple Inc.     0.09364
-    ## 2: Rollup of data for all entities     0.09364
+    ## 1:                      Apple Inc.       0.159
+    ## 2: Rollup of data for all entities       0.159
 
 ### Adhoc Request for Dataset
 
@@ -530,9 +532,9 @@ property may be overriden. Here is a full example:
     ## 2: 2017-01-01 23:00:00 2017-01-02 00:00:00       228D42
     ## 3: 2017-01-01 23:00:00 2017-01-02 00:00:00       ROLLUP
     ##                        ENTITY_NAME AVERAGE_ESS
-    ## 1:                 Amazon.com Inc.     0.01500
-    ## 2:                 Microsoft Corp.     0.44000
-    ## 3: Rollup of data for all entities     0.15667
+    ## 1:                 Amazon.com Inc.       -0.34
+    ## 2:                 Microsoft Corp.        0.44
+    ## 3: Rollup of data for all entities        0.05
 
 ### Preview of a Dataset
 
@@ -550,11 +552,9 @@ data.table. Here is how:
     ##              TIMESTAMP_UTC                      RP_STORY_ID RP_ENTITY_ID
     ## 1: 2017-01-01 18:32:25.966 0F48455C2AC2506D8E4C8C43846A89E2       0157B1
     ## 2: 2017-01-01 09:15:07.886 F8079AB7E421364BF9D960B16CC70F85       228D42
-    ## 3: 2016-12-31 23:52:27.634 B1C3BC2B6C932231182812D93B87F59F       0157B1
     ##        ENTITY_NAME
     ## 1: Amazon.com Inc.
     ## 2: Microsoft Corp.
-    ## 3: Amazon.com Inc.
 
 Entities
 --------
@@ -635,6 +635,38 @@ This function allow to query the event taxonomy. Here is an example:
     }'
     taxonomyData = RP_APITaxonomy(APIHandler = APIHandler, payload = payload_taxonomy)
 
+Full History
+------------
+
+The *History API* allows to download the full historical archive of
+RavenPack analytics (from 2000 to previous month). The archive is
+composed by yearly zip files containing monthly *CSV* files, up to the
+end of the prior month, relative to today.
+
+The function offers the possibility to only retrieve analytics for
+companies or all analytics for all entity types.
+
+**IMPORTANT**. This action will download the **full** analytics archive.
+This operation can take several hours to complete. This option is
+normally used for bulk loading the archive into a database.
+
+    # Download analytics only for comapnies
+    RP_APIDownloadFullHistory( APIHandler = APIHandler, outFolderPath = "~/Downloads", onlyCompany = TRUE )
+
+    # Download analytics for all entities
+    RP_APIDownloadFullHistory( APIHandler = APIHandler, outFolderPath = "~/Downloads", onlyCompany = FALSE )
+
+Document
+--------
+
+The *RavenPack Document API* provides access to the news stories. In
+particular it retrieves the URL for accessing the content of a story.
+
+You must provide the RavenPack story identifier (i.e., *rp\_story\_id*)
+of the story to access.
+
+    url = RP_APIGetStoryURL( APIHandler = APIHandler, rpStoryId = "5A30583B902BF39B1D4E6C5BA7053F44"  ) 
+
 Real Time Feed
 --------------
 
@@ -663,8 +695,6 @@ use as skeleton:
        write(line, stderr())
        # do any other process
      }
-
-------------------------------------------------------------------------
 
 FAQ
 ---
