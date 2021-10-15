@@ -4,8 +4,11 @@
 \alias{RP_APIDownloadFullHistory}
 \title{RP_APIDownloadFullHistory}
 \usage{
-RP_APIDownloadFullHistory(APIHandler, outFolderPath = "~/Downloads",
-  onlyCompany = TRUE)
+RP_APIDownloadFullHistory(
+  APIHandler,
+  outFolderPath = "~/Downloads",
+  onlyCompany = TRUE
+)
 }
 \arguments{
 \item{APIHandler}{An API handler, created using RP_CreateAPIHandler.}

@@ -1,50 +1,55 @@
-library(data.table)
-library(httr)
-library(jsonlite)
+
 ######################
 # CREATE API HANDLER #
 ######################
 #' @title RP_CreateAPIHandler
 #' @description This functions creates an API Handler, needed to call all API functions.
 #' @param APIKey A valid API Key.
+#' @param product 'rpa' as default. The RavenPack product: 'rpa' or 'edge'.
 #' @return An API Handler.
-#' @author Jose A. Guerrero-Colon
+#' @author Jose A. Guerrero-Colon, Maria Gomez
 #' @export
 #' @import httr
 #' @import jsonlite
 #' @import data.table
-RP_CreateAPIHandler = function(APIKey) {
+RP_CreateAPIHandler = function(APIKey, product = 'rpa') {
 
+  # Check params
   if (missing(APIKey)) {
-
     stop("Missing APIKey")
-
-  }
-  if (Sys.getenv("RPServerAPI")=='STAGING') {
-    # Staging API
-    APIHandler = list(APIKEY = APIKey,
-                      ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
-                                                                          BASE_ENDPOINT = c('https://api-staging.ravenpack.com/1.0/',
-                                                                                            'https://staging-feed.ravenpack.com/1.0/')),
-                      ENV = 'STAGING')
-
-  } else if (Sys.getenv("RPServerAPI")=='PREPROD') {
-    # Staging API
-    APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
-                                                                          BASE_ENDPOINT = c('https://api-pre.ravenpack.com/1.0/',
-                                                                                            'https://staging-feed.ravenpack.com/1.0/')),
-                      ENV = 'PREPROD')
-  } else {
-    # Production API
-    APIHandler = list(APIKEY = APIKey, ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
-                                                                          BASE_ENDPOINT = c('https://api.ravenpack.com/1.0/',
-                                                                                            'https://feed.ravenpack.com/1.0/')),
-                      ENV = 'PROD')
   }
 
+  if(!product %in% c('rpa', 'edge')) {
+    stop("Unknown product. Only 'rpa' and 'edge' are available.")
+  }
+
+
+  # Create API handler
+  env = Sys.getenv('RPServerAPI')
+  env = ifelse(env == '', 'PROD', env)
+
+  if(product == 'edge') {
+    baseUrl = 'https://api-edge.ravenpack.com/1.0/'
+    feedUrl = 'https://feed-edge.ravenpack.com/1.0/'
+
+  } else if (product == 'rpa') {
+    baseUrl = switch (env,
+                      'STAGING' = 'https://api-staging.ravenpack.com/1.0/',
+                      'PREPROD' = 'https://api-pre.ravenpack.com/1.0/',
+                      'PROD'    = 'https://api.ravenpack.com/1.0/')
+
+    feedUrl = ifelse(env == 'PROD',
+                     'https://feed.ravenpack.com/1.0/',
+                     'https://staging-feed.ravenpack.com/1.0/')
+  }
+
+  APIHandler = list(APIKEY = APIKey,
+                    ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
+                                                       BASE_ENDPOINT = c(baseUrl,
+                                                                         feedUrl)),
+                    ENV = env)
 
   return(APIHandler)
-
 }
 
 RP_APIParamsParsing = function (key, value) {

@@ -50,8 +50,10 @@ functions for querying data historically and Reference functions for
 accessing our entity reference master and taxonomy.
 
 This document provides detailed information about RPSelfServiceAPI
-Package and examples for each of the functions. For further information
-on Filter syntax, available Indicators, etc.. please refer to our [API
+Package and examples for each of the functions. It illustrates specific
+examples to work with each of the products available: **rpa** or
+**edge**. For further information on Filter syntax, available
+Indicators, etc.. please refer to our [API
 documentation](https://app.ravenpack.com/api-documentation/).
 
 Installation
@@ -87,23 +89,32 @@ instruction.
 NOTE: *PATH\_TO\_FILE* must be replaced by the path of the
 RPSelfServiceAPI\_&lt;VERSION&gt;.tar.gz file in your machine.
 *&lt;VERSION&gt;* must be replaced by the available version number. For
-example *RPSelfServiceAPI\_1\_102.tar.gz*.
+example *RPSelfServiceAPI\_1.3.tar.gz*.
 
     install.packages( "PATH_TO_FILE", repos = NULL, type="source")
 
     # For example:
-    # install.packages( "/home/r-api-package/RPSelfServiceAPI_1_102.tar.gz", repos = NULL, type="source") 
+    # install.packages( "/home/r-api-package/RPSelfServiceAPI_1.3.tar.gz", repos = NULL, type="source") 
 
 Authentication
 --------------
 
-In order to use this API you must authenticate against the server. This
-can be performed as follows:
+In order to use this API you must authenticate against the server. You
+have to indicate the product you want to target: *rpa* or *edge*.
+
+The authentication can be performed as follows.
 
     library(RPSelfServiceAPI)
 
+*Authentication in ‘rpa’ product:*
+
     APIKey = "<A_VALID_API_KEY>"
-    APIHandler = RP_CreateAPIHandler(APIKey)
+    APIHandler = RP_CreateAPIHandler(APIKey, product = "rpa")
+
+*Authentication in ‘edge’ product:*
+
+    APIKey = "<A_VALID_API_KEY>"
+    APIHandler = RP_CreateAPIHandler(APIKey, product = "edge")
 
 Status
 ------
@@ -122,11 +133,14 @@ Creating and managing datasets.
 
 ### Create a Dataset
 
-Use the following to create a dataset:
+Use the following function to create a dataset:
 
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
 
-Here is a full example, including payload:
+Below there are full examples, including payloads, to create a dataset
+in *rpa* or *edge* products.
+
+*Example Dataset Creation on ‘rpa’ Product:*
 
     payload_createDS = '{
       "name": "Testing RPSelfServiceAPI",
@@ -164,7 +178,46 @@ Here is a full example, including payload:
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "8A26BDF050EE99445D6BCCF8A252F672"
+    ## [1] "F4F8DE561ADB016B090E2097A9DFBB58"
+
+*Example Dataset Creation on ‘edge’ Product:*
+
+    payload_createDS = '{
+      "name": "Testing RPSelfServiceAPI",
+      "description": "This dataset is used for testing the Web API from R",
+      "tags": [
+      "Testing"
+      ],
+      "product": "edge",
+      "product_version": "1.0",
+      "frequency": "granular",
+      "fields": [
+      "TIMESTAMP_TZ",
+      "RP_DOCUMENT_ID",
+      "RP_ENTITY_ID",
+      "ENTITY_NAME"
+      ],
+      "filters": {
+      "and": [
+      {
+        "RP_ENTITY_ID": {
+        "in": [
+        "D8442A",
+        "228D42"
+        ]
+        }
+      },
+        {
+        "EVENT_RELEVANCE": {
+        "gte": 90
+        }
+        }
+        ]
+      }
+      }'
+
+    datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
+    print(datasetUUID)
 
 ### List all Datasets
 
@@ -185,61 +238,18 @@ The list of datasets returns the dataset\_uuid, name and creation time
     dataSetList = RP_APIListDataSet(APIHandler = APIHandler, params = payload_list)
     dataSetList
 
-    ##           UUID                   NAME             TAGS CREATION_TIME
-    ##  1: country-be                Belgium Europe_Countries            NA
-    ##  2: country-gr                 Greece Europe_Countries            NA
-    ##  3: country-fi                Finland Europe_Countries            NA
-    ##  4: country-ax          Aland Islands Europe_Countries            NA
-    ##  5: country-fo          Faroe Islands Europe_Countries            NA
-    ##  6: country-at                Austria Europe_Countries            NA
-    ##  7: country-hr                Croatia Europe_Countries            NA
-    ##  8: country-is                Iceland Europe_Countries            NA
-    ##  9: country-hu                Hungary Europe_Countries            NA
-    ## 10: country-fr                 France Europe_Countries            NA
-    ## 11: country-dk                Denmark Europe_Countries            NA
-    ## 12: country-ad                Andorra Europe_Countries            NA
-    ## 13: country-ie                Ireland Europe_Countries            NA
-    ## 14: country-de                Germany Europe_Countries            NA
-    ## 15: country-cy                 Cyprus Europe_Countries            NA
-    ## 16: country-bg               Bulgaria Europe_Countries            NA
-    ## 17: country-gi              Gibraltar Europe_Countries            NA
-    ## 18: country-al                Albania Europe_Countries            NA
-    ## 19: country-gg               Guernsey Europe_Countries            NA
-    ## 20: country-ee                Estonia Europe_Countries            NA
-    ## 21: country-by                Belarus Europe_Countries            NA
-    ## 22: country-it                  Italy Europe_Countries            NA
-    ## 23: country-cz         Czech Republic Europe_Countries            NA
-    ## 24: country-ba Bosnia and Herzegovina Europe_Countries            NA
-    ## 25: country-im            Isle of Man Europe_Countries            NA
-    ## 26: country-mc                 Monaco Europe_Countries            NA
-    ## 27: country-mk        North Macedonia Europe_Countries            NA
-    ## 28: country-xk                 Kosovo Europe_Countries            NA
-    ## 29: country-me             Montenegro Europe_Countries            NA
-    ## 30: country-pt               Portugal Europe_Countries            NA
-    ## 31: country-li          Liechtenstein Europe_Countries            NA
-    ## 32: country-se                 Sweden Europe_Countries            NA
-    ## 33: country-si               Slovenia Europe_Countries            NA
-    ## 34: country-pl                 Poland Europe_Countries            NA
-    ## 35: country-sk               Slovakia Europe_Countries            NA
-    ## 36: country-lu             Luxembourg Europe_Countries            NA
-    ## 37: country-md                Moldova Europe_Countries            NA
-    ## 38: country-ch            Switzerland Europe_Countries            NA
-    ## 39: country-ro                Romania Europe_Countries            NA
-    ## 40: country-sj Svalbard and Jan Mayen Europe_Countries            NA
-    ## 41: country-rs                 Serbia Europe_Countries            NA
-    ## 42: country-sm             San Marino Europe_Countries            NA
-    ## 43: country-va                Vatican Europe_Countries            NA
-    ## 44: country-je                 Jersey Europe_Countries            NA
-    ## 45: country-es                  Spain Europe_Countries            NA
-    ## 46: country-gb         United Kingdom Europe_Countries            NA
-    ## 47: country-ru                 Russia Europe_Countries            NA
-    ## 48: country-ua                Ukraine Europe_Countries            NA
-    ## 49: country-no                 Norway Europe_Countries            NA
-    ## 50: country-mt                  Malta Europe_Countries            NA
-    ## 51: country-nl        The Netherlands Europe_Countries            NA
-    ## 52: country-lt              Lithuania Europe_Countries            NA
-    ## 53: country-lv                 Latvia Europe_Countries            NA
-    ##           UUID                   NAME             TAGS CREATION_TIME
+    ##                 UUID                   NAME             TAGS CREATION_TIME
+    ##   1:      country-ba Bosnia and Herzegovina Europe_Countries         FALSE
+    ##   2:      country-ad                Andorra Europe_Countries         FALSE
+    ##   3:      country-at                Austria Europe_Countries         FALSE
+    ##   4: country-ax-edge          Aland Islands Europe_Countries         FALSE
+    ##   5: country-cy-edge                 Cyprus Europe_Countries         FALSE
+    ##  ---                                                                      
+    ## 102: country-ch-edge            Switzerland Europe_Countries         FALSE
+    ## 103: country-sm-edge             San Marino Europe_Countries         FALSE
+    ## 104:      country-si               Slovenia Europe_Countries         FALSE
+    ## 105: country-by-edge    Republic of Belarus Europe_Countries         FALSE
+    ## 106: country-gb-edge         United Kingdom Europe_Countries         FALSE
 
 ### Get Details for a Dataset
 
@@ -256,7 +266,10 @@ modified.
 
     RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-Here is a full example including payload syntax:
+Below there are full examples including payload syntax for *rpa* and
+*edge* products.
+
+*Example Dataset Modification on ‘rpa’ Product:*
 
     payload_modify = '{
       "name": "Modifying RPSelfServiceAPI",
@@ -293,7 +306,44 @@ Here is a full example including payload syntax:
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset 8A26BDF050EE99445D6BCCF8A252F672 successfully modified."
+    ## [1] "Dataset F4F8DE561ADB016B090E2097A9DFBB58 successfully modified."
+
+*Example Dataset Modification on ‘edge’ Product:*
+
+    payload_modify = '{
+      "name": "Modifying RPSelfServiceAPI",
+      "description": "This dataset is used for testing the Web API from R - Modified",
+      "tags": [
+      "Testing"
+      ],
+      "product": "edge",
+      "product_version": "1.0",
+      "frequency": "granular",
+      "fields": [
+      "TIMESTAMP_UTC",
+      "RP_DOCUMENT_ID",
+      "RP_ENTITY_ID",
+      "ENTITY_NAME"
+      ],
+      "filters": {
+      "and": [
+      {
+      "RP_ENTITY_ID": {
+      "in": [
+      "D8442A",
+      "228D42"
+      ]
+      }
+      },
+      {
+      "EVENT_RELEVANCE": {
+      "gte": 100
+      }
+      }
+      ]
+      }
+    }'
+    serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
 ### Delete a Dataset
 
@@ -328,8 +378,8 @@ Use the following to create a datafile:
 Here is a full example including the payload syntax:
 
     payload_filerequest = '{
-      "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00",
+      "start_date": "2021-01-01 00:00:00",
+      "end_date": "2021-01-02 00:00:00",
       "time_zone": "Europe/Madrid",
       "format": "csv",
       "compressed": true,
@@ -339,12 +389,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "FA691B71052C803513F5A70709FA9C42"
+    ## [1] "AFCE916932A993FA516FC6A0F022A919"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2019-11-26 12:34:18 UTC"
+    ## [1] "2021-10-15 09:50:02 UTC"
 
 ### Analytics Count
 
@@ -354,14 +404,14 @@ order to determine if a particular datafile will be too large and will
 need to be broken up into smaller subsets.
 
     payload_count = '{
-      "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00",
+      "start_date": "2021-01-01 00:00:00",
+      "end_date": "2021-01-02 00:00:00",
       "time_zone": "Europe/Madrid"
     }'
     rowCount = RP_APIGetDataFileCount(APIHandler = APIHandler, payload = payload_count, datasetUUID = datasetUUID)
     rowCount
 
-    ## [1] 2
+    ## [1] 8
 
 ### Datafile Generation Status
 
@@ -375,19 +425,19 @@ request status using the following code:
     ## [1] "processing"
     ## 
     ## $START_DATE
-    ## [1] "2017-01-01 00:00:00"
+    ## [1] "2021-01-01 00:00:00"
     ## 
     ## $END_DATE
-    ## [1] "2017-01-02 00:00:00"
+    ## [1] "2021-01-02 00:00:00"
     ## 
     ## $TIME_ZONE
     ## [1] "Europe/Madrid"
     ## 
     ## $SUBMITTED
-    ## [1] "2019-11-26 12:34:18 UTC"
+    ## [1] "2021-10-15 09:50:02 UTC"
     ## 
     ## $TOKEN
-    ## [1] "FA691B71052C803513F5A70709FA9C42"
+    ## [1] "AFCE916932A993FA516FC6A0F022A919"
     ## 
     ## $SIZE
     ## NULL
@@ -452,11 +502,13 @@ Request data in JSON format.
 
 ### Adhoc Request for Data
 
-This function allows data to be requested synchronously in JSON format,
-without having previously defined a dataset. The function requires
-similar parameters to the ones used when creating a dataset.
+This function requests data synchronously in JSON format, without having
+previously defined a dataset. The function requires similar parameters
+to the ones used when creating a dataset.
 
-Here is a full example:
+Below there are illustrative examples on *rpa* or *edge* products.
+
+*Example Ad-hoc Request on ‘rpa’ Product:*
 
     payload_jsonfull = '{
       "product": "RPA",
@@ -488,26 +540,113 @@ Here is a full example:
         ]
       },
       "having": [],
-      "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00",
+      "start_date": "2021-01-01 00:00:00",
+      "end_date": "2021-01-02 00:00:00",
       "time_zone": "Europe/Madrid"
     }'
     data = RP_APIGetFullAdhocJSON(APIHandler = APIHandler, payload = payload_jsonfull)
     data
 
     ##          TIMESTAMP_UTC     TIMESTAMP_LOCAL RP_ENTITY_ID
-    ## 1: 2017-01-01 23:00:00 2017-01-02 00:00:00       D8442A
-    ## 2: 2017-01-01 23:00:00 2017-01-02 00:00:00       ROLLUP
+    ## 1: 2021-01-01 23:00:00 2021-01-02 00:00:00       D8442A
+    ## 2: 2021-01-01 23:00:00 2021-01-02 00:00:00       ROLLUP
     ##                        ENTITY_NAME AVERAGE_ESS
-    ## 1:                      Apple Inc.       0.159
-    ## 2: Rollup of data for all entities       0.159
+    ## 1:                      Apple Inc.      -0.145
+    ## 2: Rollup of data for all entities      -0.145
+
+*Example Ad-hoc Request on ‘edge’ Product:*
+
+    payload_jsonfull = '{
+      "product": "edge",
+      "product_version": "1.0",
+      "frequency": "daily",
+      "time_zone": "America/New_York",
+      "fields": [
+        "timestamp_utc",
+        "rp_entity_id",
+        "entity_name",
+        "average_ess"
+         ],
+      "custom_fields": [
+        {
+          "average_ess": {
+            "avg": {
+              "field": "event_sentiment",
+              "mode": "daily"
+            }
+          }
+        }
+      ],
+      "filters": {
+      "and": [
+      {
+      "RP_ENTITY_ID": {
+      "in": [
+      "D8442A"
+      ]
+      }
+      },
+      {
+      "EVENT_RELEVANCE": {
+      "eq": 100
+      }
+      }
+      ]
+      },
+      "having": [],
+      "start_date": "2021-03-10 15:30:00",
+      "end_date": "2021-03-15 15:30:00"
+    }'
+    data = RP_APIGetFullAdhocJSON(APIHandler = APIHandler, payload = payload_jsonfull)
+    data
 
 ### Adhoc Request for Dataset
 
 This function allows data to be requested synchronously and received in
 a data.table. A predefined dataset must be supplied and the fields
-property may be overriden. Here is a full example:
+property may be overriden. Here there are full examples for requesting
+on *rpa* or *edge*.
 
+*Example Ad-hoc Dataset Request on ‘rpa’ Product:*
+
+    # Payload to create a dataset for generating a DATAFILE
+    payload_createDS_DF = '{
+        "name": "Testing RPSelfServiceAPI",
+        "description": "This dataset is used for testing the Web API from R",
+        "tags": [
+        "Testing"
+        ],
+        "product": "RPA",
+        "product_version": "1.0",
+        "frequency": "daily",
+        "fields": [
+        {
+        "average_ess": {
+        "avg": {
+        "field": "event_sentiment_score"
+        }
+        }
+        }
+        ],
+        "filters": {
+        "and": [
+        {
+        "RP_ENTITY_ID": {
+        "in": [
+        "D8442A"
+        ]
+        }
+        },
+        {
+        "EVENT_RELEVANCE": {
+        "eq": 100
+        }
+        }
+        ]
+        }}'
+    datasetUUID <- RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS_DF)
+
+    # Payload Adhoc Request for Dataset
     payload_jsonDS = '{
       "frequency": "daily",
       "fields": [
@@ -520,21 +659,78 @@ property may be overriden. Here is a full example:
         }
       ],
       "having": [],
-      "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00",
+      "start_date": "2021-01-01 00:00:00",
+      "end_date": "2021-01-02 00:00:00",
       "time_zone": "Europe/Madrid"
     }'
     data = RP_APIGetDataSetJSON(APIHandler = APIHandler, payload = payload_jsonDS, datasetUUID = datasetUUID)
     data
 
     ##          TIMESTAMP_UTC     TIMESTAMP_LOCAL RP_ENTITY_ID
-    ## 1: 2017-01-01 23:00:00 2017-01-02 00:00:00       0157B1
-    ## 2: 2017-01-01 23:00:00 2017-01-02 00:00:00       228D42
-    ## 3: 2017-01-01 23:00:00 2017-01-02 00:00:00       ROLLUP
+    ## 1: 2021-01-01 23:00:00 2021-01-02 00:00:00       D8442A
+    ## 2: 2021-01-01 23:00:00 2021-01-02 00:00:00       ROLLUP
     ##                        ENTITY_NAME AVERAGE_ESS
-    ## 1:                 Amazon.com Inc.       -0.34
-    ## 2:                 Microsoft Corp.        0.44
-    ## 3: Rollup of data for all entities        0.05
+    ## 1:                      Apple Inc.      -0.145
+    ## 2: Rollup of data for all entities      -0.145
+
+*Example Ad-hoc Dataset Request on ‘edge’ Product:*
+
+    # Create a dataset
+    # Payload to create a dataset for generating a DATAFILE
+    payload_createDS_DF = '{
+         "name": "Testing RPSelfServiceAPI",
+         "description": "This dataset is used for testing the Web API from R",
+         "tags": [
+         "Testing"
+         ],
+         "product": "edge",
+         "product_version": "1.0",
+         "frequency": "daily",
+         "fields": [
+        "timestamp_utc",
+        "rp_entity_id",
+        "entity_name",
+        "average_ess"
+         ],
+    "custom_fields": [
+        {
+          "average_ess": {
+            "avg": {
+              "field": "event_sentiment",
+              "mode": "daily"
+            }
+          }
+        }
+      ],
+         "filters": {
+         "and": [
+         {
+         "RP_ENTITY_ID": {
+         "in": [
+         "D8442A"
+         ]
+         }
+         },
+         {
+         "EVENT_RELEVANCE": {
+         "eq": 100
+         }
+         }
+         ]
+         }}'
+    datasetUUID <- RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS_DF)
+
+
+    # Payload Adhoc Request for Dataset
+    payload_jsonDS = '{
+          "fields": [
+          "average_ess"
+          ],
+          "start_date": "2021-01-01 15:30:00",
+          "end_date": "2021-01-02 15:30:00"
+        }'
+    data = RP_APIGetDataSetJSON(APIHandler = APIHandler, payload = payload_jsonDS, datasetUUID = datasetUUID)
+    data
 
 ### Preview of a Dataset
 
@@ -542,19 +738,19 @@ This function allows a a small sample of a dataset to be returned in a
 data.table. Here is how:
 
     payload_preview = '{
-      "start_date": "2017-01-01 00:00:00",
-      "end_date": "2017-01-02 00:00:00",
+      "start_date": "2021-01-01 00:00:00",
+      "end_date": "2021-01-02 00:00:00",
       "time_zone": "Europe/Madrid"
     }'
     data = RP_APIGetDataSetPreview(APIHandler = APIHandler, payload = payload_preview, datasetUUID = datasetUUID)
     data
 
-    ##              TIMESTAMP_UTC                      RP_STORY_ID RP_ENTITY_ID
-    ## 1: 2017-01-01 18:32:25.966 0F48455C2AC2506D8E4C8C43846A89E2       0157B1
-    ## 2: 2017-01-01 09:15:07.886 F8079AB7E421364BF9D960B16CC70F85       228D42
-    ##        ENTITY_NAME
-    ## 1: Amazon.com Inc.
-    ## 2: Microsoft Corp.
+    ##          TIMESTAMP_UTC     TIMESTAMP_LOCAL RP_ENTITY_ID
+    ## 1: 2021-01-01 23:00:00 2021-01-02 00:00:00       D8442A
+    ## 2: 2021-01-01 23:00:00 2021-01-02 00:00:00       ROLLUP
+    ##                        ENTITY_NAME AVERAGE_ESS
+    ## 1:                      Apple Inc.      -0.145
+    ## 2: Rollup of data for all entities      -0.145
 
 Entities
 --------
@@ -571,7 +767,7 @@ RP\_ENTITY\_ID for the possible matches. Find a full example below:
       "identifiers": [
         {
           "client_id": "12345-A",
-          "date": "2017-01-01",
+          "date": "2021-01-01",
           "name": "Amazon Inc.",
           "entity_type": "COMP",
           "isin": "US0231351067",
@@ -620,7 +816,9 @@ including companies, products, people, organizations, places, and more.
 
 ### Querying the Event Taxonomy
 
-This function allow to query the event taxonomy. Here is an example:
+This function allow to query the event taxonomy.
+
+*Example on ‘rpa’ Product:*
 
     payload_taxonomy = '{
       "topics": [],
@@ -632,6 +830,22 @@ This function allow to query the event taxonomy. Here is an example:
         "earnings-above-expectations",
         "product-recall"
       ]
+    }'
+    taxonomyData = RP_APITaxonomy(APIHandler = APIHandler, payload = payload_taxonomy)
+
+*Example on ‘edge’ Product:*
+
+    payload_taxonomy = '{
+      "categories": [
+        "earnings-above-expectations",
+        "product-recall"
+      ],
+      "groups": [],
+      "product": "edge",
+      "roles": [],
+      "sub_types": [],
+      "topics": [],
+      "types": []
     }'
     taxonomyData = RP_APITaxonomy(APIHandler = APIHandler, payload = payload_taxonomy)
 
@@ -662,10 +876,10 @@ Document
 The *RavenPack Document API* provides access to the news stories. In
 particular it retrieves the URL for accessing the content of a story.
 
-You must provide the RavenPack story identifier (i.e., *rp\_story\_id*)
-of the story to access.
+You must provide the RavenPack story identifier (i.e., *rp\_story\_id*
+in *rpa* or *rp\_document\_id* in *edge*) of the story to access.
 
-    url = RP_APIGetStoryURL( APIHandler = APIHandler, rpStoryId = "5A30583B902BF39B1D4E6C5BA7053F44"  ) 
+    url = RP_APIGetStoryURL( APIHandler = APIHandler, rpStoryId = "7509CE837C176F159103AEED0EDCD1A6"  ) 
 
 Real Time Feed
 --------------

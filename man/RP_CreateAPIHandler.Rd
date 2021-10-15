@@ -4,10 +4,12 @@
 \alias{RP_CreateAPIHandler}
 \title{RP_CreateAPIHandler}
 \usage{
-RP_CreateAPIHandler(APIKey)
+RP_CreateAPIHandler(APIKey, product = "rpa")
 }
 \arguments{
 \item{APIKey}{A valid API Key.}
+
+\item{product}{'rpa' as default. The RavenPack product: 'rpa' or 'edge'.}
 }
 \value{
 An API Handler.
@@ -16,5 +18,5 @@ An API Handler.
 This functions creates an API Handler, needed to call all API functions.
 }
 \author{
-Jose A. Guerrero-Colon
+Jose A. Guerrero-Colon, Maria Gomez
 }

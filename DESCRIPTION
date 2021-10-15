@@ -1,8 +1,8 @@
 Package: RPSelfServiceAPI
 Type: Package
 Title: RavenPack API to Self Service Platform
-Date: 26-NOV-2019
-Version: 1.2
+Date: 14-OCT-2021
+Version: 1.3
 Authors@R: c(person("Guerrero-Colón", "Jose A.", email = "jguerrero@ravenpack.com", role = "cre"),
              person("Gomez", "Maria", email = "mgomez@ravenpack.com"))
 Description: This package provides access to RavenPack Self Service Platform (REST) API.
@@ -12,4 +12,4 @@ License: RavenPack International
 Encoding: UTF-8
 LazyData: true
 LazyLoad: Yes
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
