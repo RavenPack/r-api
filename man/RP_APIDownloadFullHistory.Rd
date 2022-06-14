@@ -7,7 +7,8 @@
 RP_APIDownloadFullHistory(
   APIHandler,
   outFolderPath = "~/Downloads",
-  onlyCompany = TRUE
+  onlyCompany = TRUE,
+  flatfile_package = NULL
 )
 }
 \arguments{
@@ -15,7 +16,9 @@ RP_APIDownloadFullHistory(
 
 \item{outFolderPath}{The local folder to store the downloaded archive files.}
 
-\item{onlyCompany}{TRUE as default. Whether to download only analytics for companies of for all type of entities.}
+\item{onlyCompany}{TRUE as default. Whether to download only analytics for companies or for all type of entities. This parameter will only be used on 'rpa' product.}
+
+\item{flatfile_package}{Unique identifier for the flat-file package. Only required for 'edge' product.}
 }
 \value{
 TRUE if the operation succeeds. An ERROR otherwise.

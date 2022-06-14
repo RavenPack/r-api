@@ -38,8 +38,7 @@
 -   [FAQ](#faq)
     -   [Authentication issues](#authentication-issues)
 
-Introduction
-------------
+## Introduction
 
 The RavenPack Self Service R API allows users to request and filter data
 from RavenPack Analytics in order to retrieve smaller, more concise
@@ -56,8 +55,7 @@ examples to work with each of the products available: **rpa** or
 Indicators, etc.. please refer to our [API
 documentation](https://app.ravenpack.com/api-documentation/).
 
-Installation
-------------
+## Installation
 
 There are 2 options to install the library:
 
@@ -89,15 +87,14 @@ instruction.
 NOTE: *PATH\_TO\_FILE* must be replaced by the path of the
 RPSelfServiceAPI\_&lt;VERSION&gt;.tar.gz file in your machine.
 *&lt;VERSION&gt;* must be replaced by the available version number. For
-example *RPSelfServiceAPI\_1.3.tar.gz*.
+example *RPSelfServiceAPI\_1\_102.tar.gz*.
 
     install.packages( "PATH_TO_FILE", repos = NULL, type="source")
 
     # For example:
-    # install.packages( "/home/r-api-package/RPSelfServiceAPI_1.3.tar.gz", repos = NULL, type="source") 
+    # install.packages( "/home/r-api-package/RPSelfServiceAPI_1_102.tar.gz", repos = NULL, type="source") 
 
-Authentication
---------------
+## Authentication
 
 In order to use this API you must authenticate against the server. You
 have to indicate the product you want to target: *rpa* or *edge*.
@@ -116,8 +113,7 @@ The authentication can be performed as follows.
     APIKey = "<A_VALID_API_KEY>"
     APIHandler = RP_CreateAPIHandler(APIKey, product = "edge")
 
-Status
-------
+## Status
 
 General Status of server.
 
@@ -126,8 +122,7 @@ General Status of server.
 
     ## [1] "OK"
 
-Datasets
---------
+## Datasets
 
 Creating and managing datasets.
 
@@ -178,7 +173,7 @@ in *rpa* or *edge* products.
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "F4F8DE561ADB016B090E2097A9DFBB58"
+    ## [1] "54C977567293E6103AE813ED6EE0FE5E"
 
 *Example Dataset Creation on ‘edge’ Product:*
 
@@ -238,18 +233,18 @@ The list of datasets returns the dataset\_uuid, name and creation time
     dataSetList = RP_APIListDataSet(APIHandler = APIHandler, params = payload_list)
     dataSetList
 
-    ##                 UUID                   NAME             TAGS CREATION_TIME
-    ##   1:      country-ba Bosnia and Herzegovina Europe_Countries         FALSE
-    ##   2:      country-ad                Andorra Europe_Countries         FALSE
-    ##   3:      country-at                Austria Europe_Countries         FALSE
-    ##   4: country-ax-edge          Aland Islands Europe_Countries         FALSE
-    ##   5: country-cy-edge                 Cyprus Europe_Countries         FALSE
-    ##  ---                                                                      
-    ## 102: country-ch-edge            Switzerland Europe_Countries         FALSE
-    ## 103: country-sm-edge             San Marino Europe_Countries         FALSE
-    ## 104:      country-si               Slovenia Europe_Countries         FALSE
-    ## 105: country-by-edge    Republic of Belarus Europe_Countries         FALSE
-    ## 106: country-gb-edge         United Kingdom Europe_Countries         FALSE
+    ##                 UUID           NAME             TAGS CREATION_TIME
+    ##   1: country-ax-edge  Aland Islands Europe_Countries            NA
+    ##   2:      country-ax  Aland Islands Europe_Countries            NA
+    ##   3: country-al-edge        Albania Europe_Countries            NA
+    ##   4:      country-al        Albania Europe_Countries            NA
+    ##   5:      country-ad        Andorra Europe_Countries            NA
+    ##  ---                                                              
+    ## 102:      country-ua        Ukraine Europe_Countries            NA
+    ## 103: country-gb-edge United Kingdom Europe_Countries            NA
+    ## 104:      country-gb United Kingdom Europe_Countries            NA
+    ## 105: country-va-edge        Vatican Europe_Countries            NA
+    ## 106:      country-va        Vatican Europe_Countries            NA
 
 ### Get Details for a Dataset
 
@@ -306,7 +301,7 @@ Below there are full examples including payload syntax for *rpa* and
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset F4F8DE561ADB016B090E2097A9DFBB58 successfully modified."
+    ## [1] "Dataset 54C977567293E6103AE813ED6EE0FE5E successfully modified."
 
 *Example Dataset Modification on ‘edge’ Product:*
 
@@ -353,8 +348,7 @@ Delete a single dataset.
 
     ## [1] "Dataset deleted"
 
-Datafiles
----------
+## Datafiles
 
 Generating datafiles for a particular dataset for any period from the
 year 2000 to present. Data may be retrieved in CSV or Excel format and
@@ -389,12 +383,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "AFCE916932A993FA516FC6A0F022A919"
+    ## [1] "640542A8FE3DCFDCE2EB0242E724E212"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2021-10-15 09:50:02 UTC"
+    ## [1] "2022-06-14 09:46:05 UTC"
 
 ### Analytics Count
 
@@ -434,10 +428,10 @@ request status using the following code:
     ## [1] "Europe/Madrid"
     ## 
     ## $SUBMITTED
-    ## [1] "2021-10-15 09:50:02 UTC"
+    ## [1] "2022-06-14 09:46:05 UTC"
     ## 
     ## $TOKEN
-    ## [1] "AFCE916932A993FA516FC6A0F022A919"
+    ## [1] "640542A8FE3DCFDCE2EB0242E724E212"
     ## 
     ## $SIZE
     ## NULL
@@ -495,8 +489,7 @@ seconds) using the *timeout* parameter.
 
     RP_APIDownloadFileWhenReady(APIHandler = APIHandler, token = requestToken$TOKEN, outputFile = 'datafile.zip', timeout = 120)
 
-JSON Queries
-------------
+## JSON Queries
 
 Request data in JSON format.
 
@@ -752,8 +745,7 @@ data.table. Here is how:
     ## 1:                      Apple Inc.      -0.145
     ## 2: Rollup of data for all entities      -0.145
 
-Entities
---------
+## Entities
 
 ### Map Entity Identifiers into RavenPack’s Entity Universe
 
@@ -806,8 +798,7 @@ type of data.
     rp_entity_id = '0157B1' 
     refData = RP_APIGetEntityReference(APIHandler = APIHandler, entity_id = rp_entity_id )
 
-Taxonomy
---------
+## Taxonomy
 
 The RavenPack taxonomy is a comprehensive structure for content
 classification. It provides a definitive system categorizing structured
@@ -849,29 +840,41 @@ This function allow to query the event taxonomy.
     }'
     taxonomyData = RP_APITaxonomy(APIHandler = APIHandler, payload = payload_taxonomy)
 
-Full History
-------------
+## Full History
 
 The *History API* allows to download the full historical archive of
 RavenPack analytics (from 2000 to previous month). The archive is
 composed by yearly zip files containing monthly *CSV* files, up to the
 end of the prior month, relative to today.
 
-The function offers the possibility to only retrieve analytics for
-companies or all analytics for all entity types.
-
 **IMPORTANT**. This action will download the **full** analytics archive.
 This operation can take several hours to complete. This option is
 normally used for bulk loading the archive into a database.
 
-    # Download analytics only for comapnies
+*Example on ‘rpa’ Product:*
+
+On ‘rpa’ the function offers the possibility to only retrieve analytics
+for companies or all analytics for all entity types.
+
+    # Download analytics only for comapnies (rpa)
     RP_APIDownloadFullHistory( APIHandler = APIHandler, outFolderPath = "~/Downloads", onlyCompany = TRUE )
 
-    # Download analytics for all entities
+    # Download analytics for all entities (rpa)
     RP_APIDownloadFullHistory( APIHandler = APIHandler, outFolderPath = "~/Downloads", onlyCompany = FALSE )
 
-Document
---------
+*Example on ‘edge’ Product:*
+
+On ‘edge’ it is only possible to download analytics from different
+packages covering different analytics scopes. For example, company news,
+macro news, etc. Please contact *Customer Support* to receive the
+*flatfile\_package* identifier for your license.
+
+    # Download analytics (edge)
+    flatfile_package = <YOUR_FLATFILE_PACKAGE_ID>  # Contact Client Support for getting an identifier
+    RP_APIDownloadFullHistory( APIHandler = APIHandler, outFolderPath = "~/Downloads",
+                               flatfile_package = flatfile_package )
+
+## Document
 
 The *RavenPack Document API* provides access to the news stories. In
 particular it retrieves the URL for accessing the content of a story.
@@ -881,8 +884,7 @@ in *rpa* or *rp\_document\_id* in *edge*) of the story to access.
 
     url = RP_APIGetStoryURL( APIHandler = APIHandler, rpStoryId = "7509CE837C176F159103AEED0EDCD1A6"  ) 
 
-Real Time Feed
---------------
+## Real Time Feed
 
 The RavenPack Streaming API allows users to subscribe to a dataset from
 RavenPack in real-time. At this time, only datasets defined with
@@ -910,8 +912,7 @@ use as skeleton:
        # do any other process
      }
 
-FAQ
----
+## FAQ
 
 ### Authentication issues
 

@@ -47,7 +47,8 @@ RP_CreateAPIHandler = function(APIKey, product = 'rpa') {
                     ENDPOINTS = data.table::data.table(TYPE = c('ASYNC', 'RT'),
                                                        BASE_ENDPOINT = c(baseUrl,
                                                                          feedUrl)),
-                    ENV = env)
+                    ENV = env,
+                    PRODUCT = product)
 
   return(APIHandler)
 }
@@ -168,7 +169,8 @@ RP_APIListDataSet = function(APIHandler, params = list()) {
 
     }
   }
-  url_dataset = paste0(APIHandler$ENDPOINTS[TYPE == 'ASYNC']$BASE_ENDPOINT,'datasets/')
+
+  url_dataset = paste0(APIHandler$ENDPOINTS[TYPE == 'ASYNC']$BASE_ENDPOINT,'datasets')
   # Preparing the query of the GET
   query = paste0(
     unlist(lapply(seq_along(params), FUN = function(values,keys,i) {RP_APIParamsParsing(key = keys[[i]], value =values[[i]])}, values = params, keys = names(params))),

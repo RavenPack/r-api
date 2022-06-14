@@ -8,18 +8,23 @@
 #' Files downloaded are yearly zip files containing monthly CSV files, up to the end of the prior month, relative to today.
 #' @param APIHandler An API handler, created using RP_CreateAPIHandler.
 #' @param outFolderPath The local folder to store the downloaded archive files.
-#' @param onlyCompany TRUE as default. Whether to download only analytics for companies of for all type of entities.
+#' @param onlyCompany TRUE as default. Whether to download only analytics for companies or for all type of entities. This parameter will only be used on 'rpa' product.
+#' @param flatfile_package Unique identifier for the flat-file package. Only required for 'edge' product.
 #' @return TRUE if the operation succeeds. An ERROR otherwise.
 #' As output a set of zip files will be downloaded in the output folder indicated as parameter.
 #' @author Maria Gomez
 #' @export
 #' @import httr
 #' @import jsonlite
-RP_APIDownloadFullHistory = function( APIHandler, outFolderPath = "~/Downloads", onlyCompany = TRUE ) {
+RP_APIDownloadFullHistory = function( APIHandler, outFolderPath = "~/Downloads", onlyCompany = TRUE, flatfile_package = NULL ) {
 
   # Parameter checking
   if ( missing( APIHandler) ) {
     stop("You have to provide a valid APIHandler.")
+  }
+
+  if( APIHandler$PRODUCT == 'edge' & (is.null(flatfile_package) | missing(flatfile_package)) ){
+    stop("A flatfile_package identifier is required with 'edge' product.")
   }
 
   outFolderPath = paste0( outFolderPath, "/history" )
@@ -29,10 +34,18 @@ RP_APIDownloadFullHistory = function( APIHandler, outFolderPath = "~/Downloads",
 
 
   # Query endpoint
-  if( onlyCompany ) {
-    res = RP_APIFullHistoryCompanies(APIHandler)
-  } else{
-    res = RP_APIFullHistory( APIHandler )
+  if( APIHandler$PRODUCT == 'edge' ) {
+    if( !missing(onlyCompany) ){
+      warning("Parameter 'onlyCompany' is ignored. The parameter is only used on 'rpa' product.")
+    }
+    res = RP_APIFullHistory( APIHandler, flatfile_package )
+
+    } else if(APIHandler$PRODUCT == 'rpa'){
+      if( onlyCompany ) {
+        res = RP_APIFullHistoryCompanies( APIHandler )
+      } else{
+        res = RP_APIFullHistory( APIHandler )
+      }
   }
 
 

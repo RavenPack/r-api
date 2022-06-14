@@ -4,10 +4,12 @@
 \alias{RP_APIFullHistory}
 \title{RP_APIFullHistory}
 \usage{
-RP_APIFullHistory(APIHandler)
+RP_APIFullHistory(APIHandler, flatfile_package = NULL)
 }
 \arguments{
 \item{APIHandler}{An API handler, created using RP_CreateAPIHandler.}
+
+\item{flatfile_package}{Unique identifier for the flat-file package. Only required for 'edge' product.}
 }
 \value{
 The output of the call will be an array of objects listing the files available.
