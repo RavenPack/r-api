@@ -173,7 +173,7 @@ in *rpa* or *edge* products.
     datasetUUID = RP_APICreateDataSet(APIHandler = APIHandler, payload = payload_createDS)
     print(datasetUUID)
 
-    ## [1] "54C977567293E6103AE813ED6EE0FE5E"
+    ## [1] "DEFF68484DB85A4FB049415B39206AF2"
 
 *Example Dataset Creation on ‘edge’ Product:*
 
@@ -301,7 +301,7 @@ Below there are full examples including payload syntax for *rpa* and
     }'
     serverResponse = RP_APIModifyDataSet(APIHandler = APIHandler, payload = payload_modify, datasetUUID = datasetUUID)
 
-    ## [1] "Dataset 54C977567293E6103AE813ED6EE0FE5E successfully modified."
+    ## [1] "Dataset DEFF68484DB85A4FB049415B39206AF2 successfully modified."
 
 *Example Dataset Modification on ‘edge’ Product:*
 
@@ -383,12 +383,12 @@ Here is a full example including the payload syntax:
     # Request Token
     requestToken$TOKEN
 
-    ## [1] "640542A8FE3DCFDCE2EB0242E724E212"
+    ## [1] "70C60F7A6974ECC4A67F24A9E3D83CEA"
 
     # Expected availability
     requestToken$ETA
 
-    ## [1] "2022-06-14 09:46:05 UTC"
+    ## [1] "2022-07-28 09:53:15 UTC"
 
 ### Analytics Count
 
@@ -428,10 +428,10 @@ request status using the following code:
     ## [1] "Europe/Madrid"
     ## 
     ## $SUBMITTED
-    ## [1] "2022-06-14 09:46:05 UTC"
+    ## [1] "2022-07-28 09:53:15 UTC"
     ## 
     ## $TOKEN
-    ## [1] "640542A8FE3DCFDCE2EB0242E724E212"
+    ## [1] "70C60F7A6974ECC4A67F24A9E3D83CEA"
     ## 
     ## $SIZE
     ## NULL
@@ -751,9 +751,10 @@ data.table. Here is how:
 
 The entity-mapping endpoint may be used to map from a universe of entity
 or security identifiers into RavenPack’s entity universe. One may pass
-in identifiers such as entity names, listings, ISIN values, CUSIP
-values, etc. and the endpoint will return the corresponding
-RP\_ENTITY\_ID for the possible matches. Find a full example below:
+in identifiers such as *entity names*, *listings*, *ISIN*, *CUSIP*,
+*SEDOL*, *LEI* and *FIGI* values. The endpoint will return the
+corresponding *RP\_ENTITY\_ID* for the possible matches. Find a full
+example below:
 
     payload_maprequest = '{
       "identifiers": [
